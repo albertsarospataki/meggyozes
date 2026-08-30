@@ -1,0 +1,60 @@
+{
+  "verzio": "v4 + gold-mini-kör (2026-08-29)",
+  "forras": "🔁 Kód-ekvivalencia térkép v4 — Notion, Kódkönyv gyerekoldala",
+  "jelolés": "Minden tétel «levezetett — Albert megerősítésére», kivéve a 4 ALBERT-DÖNTÉS-t.",
+  "megjegyzes": "62 tétel. A KÜLÖNBÖZŐ párokat itt nem soroljuk fel tételesen: a pontozó alapértelmezése az, hogy két kód KÜLÖNBÖZŐ, amíg ez a fájl mást nem mond. Csak a helyettesítést ENGEDŐ tételek (EKVIVALENS, TARTALMAZÓ, fedés) kerülnek ide, mert csak ezek befolyásolják a pontozást.",
+
+  "ekvivalens": [
+    { "tetel": 1, "parok": ["J-215", "TK-045"], "korlat": "Jelenlét-szinten. A sötét/legitim MINŐSÍTÉSHEZ J-270, J-111, J-238 is kell." },
+    { "tetel": 20, "parok": ["J-212", "TK-047"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 21, "parok": ["TK-032", "J-045"], "korlat": "Csak akkor mérhető, ha készült audit." },
+    { "tetel": 27, "parok": ["J-403", "TK-093"], "korlat": "Jelenlét-szinten. A TK-093 sötét minősítése többlet. A J-204 mindkettőtől KÜLÖNBÖZŐ." },
+    { "tetel": 29, "parok": ["TK-034", "J-167"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 33, "parok": ["J-035", "TK-006"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 34, "parok": ["TK-066", "J-239"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 41, "parok": ["J-400", "TK-089"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 42, "parok": ["TK-104", "J-320"], "korlat": "Jelenlét-szinten." },
+    { "tetel": 47, "parok": ["TK-053", "J-260"], "korlat": "Jelenlét-szinten. Az illeszkedés-ítélet többlet. A TK-049 mindkettőtől KÜLÖNBÖZŐ." }
+  ],
+
+  "tartalmazo": [
+    { "tetel": 9, "forras": "J-168", "cel": "TK-059", "indoklas": "A J-168 detektálása teljesíti a TK-059-elvárást a kizárás-dimenzióban; a TK-059 J-163/J-164 útján is megállhat, fordítva NEM automatikus." },
+    { "tetel": 24, "forras": "J-129", "cel": "TK-039", "indoklas": "Bármelyik jelölés-jel detektálása teljesíti a TK-039-elvárást." },
+    { "tetel": 24, "forras": "J-125", "cel": "TK-039", "indoklas": "Bármelyik jelölés-jel detektálása teljesíti a TK-039-elvárást." },
+    { "tetel": 31, "forras": "J-323", "cel": "TK-085", "indoklas": "A TK-085 választóvonalának első megfigyelése a J-323. Fordítva nem: a TK-085 J-423 ágon is megállhat." },
+    { "tetel": 50, "forras": "TK-087", "cel": "J-335", "indoklas": "A TK-087 sötét minősítése fedezetlenség-indoklással teljesíti a J-335-öt. A J-335 NEM ELLENŐRIZHETŐ kimenete egyiket sem alapozza meg." },
+    { "tetel": 51, "forras": "J-156", "cel": "TK-019", "indoklas": "Bármelyik jel detektálása teljesíti a TK-019 elvárását a saját dimenziójában; fordítva nem." },
+    { "tetel": 51, "forras": "J-168", "cel": "TK-019", "indoklas": "Bármelyik jel detektálása teljesíti a TK-019 elvárását a saját dimenziójában; fordítva nem." },
+    { "tetel": 56, "forras": "TK-105", "cel": "J-150", "indoklas": "A TK-105-ellenpróba nem végezhető el a J-150 mérése nélkül, ezért teljesíti. Fordítva nem: a J-150 önmagában nem teljesíti a TK-105-tételt." }
+  ],
+
+  "fedes": [
+    {
+      "tetel": 49,
+      "cel": "TK-029",
+      "egyuttesek": [["J-041", "J-042"], ["J-127", "J-043"]],
+      "indoklas": "A TK-029 mérése maga a J-041/J-042 bejárás. Ha a bejárás nem végezhető el, a J-127 ÉS a J-043 EGYÜTTES felvétele elegendő fedés. Külön-külön egyik sem elég. A jel–jel elhatárolások (v1 #16, #18) változatlanok."
+    }
+  ],
+
+  "kompozitKodok": {
+    "kodok": ["J-448", "J-450", "J-321", "TK-086", "TK-072"],
+    "szabaly": "Pontozási szabály 4 (v3) + 5 (v4): ha 3+ elemi jel ugyanabba a mintázatba mutat, a kompozit kód kiadása KÖTELEZŐ az elemi kódok MELLETT. Az elemi kódok önmagukban nem teljesítik a kompozit tételt, és fordítva. A kényszer POZITÍV mintázatra is érvényes (J-448 kiegyensúlyozott érvkészlet).",
+    "futtatokonyvBovites": ["J-499", "TK-105"]
+  },
+
+  "governanceOrok": [
+    { "azonosito": "a", "szabaly": "Fogyasztói arányállításnál a J-204 ÉS a J-403 együtt adandó ki.", "dontes": "ALBERT-DÖNTÉS (2026-08-29)" },
+    { "azonosito": "b", "szabaly": "Statikus felületen a TK-063 kiadása TILOS (helyette TK-105); párbeszédes szekvenciában engedett.", "dontes": "ALBERT-DÖNTÉS (2026-08-29)" },
+    { "azonosito": "c", "szabaly": "A TK-001 csak bizonyíték-objektummal adható ki (J-499 / J-011 / J-033 / kétidőpontos diff / archív). Enélkül automatikus lefokozás gyanúra.", "dontes": "ALBERT-DÖNTÉS (2026-08-29)" },
+    { "azonosito": "d", "szabaly": "A J-129 kiadása TILOS, ha a jelölés-detektor jelölést talált (a láblécben vagy a tartalom végén is) — az útvonal ilyenkor J-125 / TK-039.", "dontes": "ALBERT-DÖNTÉS (2026-08-29)" }
+  ],
+
+  "definiciosPontositasok": [
+    { "tetel": "Pontozási szabály 6", "kod": "J-031", "szabaly": "Dinamikus számláló (J-001) jelenléte NEM nyeli el a mellette álló statikus szöveges hátralévő-idő keretet («ma még», «holnap lejár») — a J-031 KÜLÖN kiadandó a J-001 mellett." },
+    { "tetel": "Pontozási szabály 7", "kod": "J-309", "szabaly": "J-309 = bűntudatkeltő/szégyenítő nyelvezet a kilépési-elutasítási útvonalon BÁRHOL (kísérőszöveg, modal-törzs, felirat) — nem csak a gombfeliraton. A J-312 a felirat-információtartalom jele." },
+    { "tetel": "Pontozási szabály 8", "kod": "J-201", "szabaly": "J-201 csak akkor áll, ha a feltétel vizuálisan/strukturálisan LEFOKOZVA jelenik meg (apróbetű, lábléc, csillag, elrejtett aloldal); a fő szövegblokkban, normál szedéssel kimondott feltétel = J-201-ellenpróba." },
+    { "tetel": "37", "kod": "J-214", "szabaly": "DEKOMPOZÍCIÓ-SZABÁLY: a J-214 két EGYÜTTES feltételen áll — (1) ismétlődő kötelezettség apró egységben ÉS (2) a teljes összeg NINCS közölve ugyanabban a nézetben. Ha a teljes összeg is ott áll, az ellenpróba teljesül és a J-214 NEM vehető fel." },
+    { "tetel": "62", "kod": "TK-026", "szabaly": "Kártya-kapus ingyenes próbánál a bankkártya-kérés a J-323-ban van elszámolva; a TK-026 CSAK valódi túlkérésnél adható ki (pl. cím, telefonszám számlázási ok nélkül)." }
+  ]
+}

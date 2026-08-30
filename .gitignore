@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.local
+
+# A tudásbázis-pillanatképek ügyfél-független, de nagy és generált adatok —
+# a manifest verziózva van, a nyers pillanatkép nem kerül a repóba.
+pillanatkepek/
+!pillanatkepek/.gitkeep
+
+# Kalibrációs futások kimenete
+futasok/
+coverage/
+.DS_Store
