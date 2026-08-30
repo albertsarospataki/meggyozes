@@ -79,34 +79,52 @@ export function konzisztenciatEllenoriz(
     );
   }
 
-  // Karantén-tilalom: aktív szabály nem épülhet karanténos/visszavont elemre.
-  // A Constitution 6. pontja szerint az ilyen megállapítás nem adható ki.
-  const karantenElvarasok = new Set(
-    p.elvarasok.filter((e) => e.allapot !== "Aktiv").map((e) => e.kod),
-  );
-  const kerulendoTechnikak = new Set(
-    p.technikak.filter((t) => t.allapot === "Kerulendo").map((t) => t.kod),
-  );
-  const karantenre = aktivSzabalyok.filter((sz) =>
-    sz.technikak.some((t) => kerulendoTechnikak.has(t)),
-  );
-  if (karantenre.length > 0) {
-    leletek.push(
-      lelet(
-        "KARANTEN",
-        "hiba",
-        `${karantenre.length} aktív szabály kerülendő állapotú technikára hivatkozik — ezek megállapítása nem adható ki.`,
-        karantenre.map((sz) => sz.kod),
-      ),
-    );
-  }
-  if (karantenElvarasok.size > 0) {
+  // FIGYELEM a mezőnév-ütközésre: az «Állapot» két különböző dolgot jelent.
+  // A Szabálytárban és az Elvárás-listában ADATÉLETCIKLUS (Aktív / Karantén /
+  // Visszavont), a Technikatárban viszont TARTALMI MINŐSÍTÉS (Aktív / Vitatott /
+  // Kerülendő): a TK-001 «Hamis visszaszámláló» azért Kerülendő, mert a technika
+  // maga kerülendő — az adat teljesen érvényes, és pont ezt kell detektálni.
+  // A kettőt összekeverni azt jelentené, hogy a rendszer kizárja a sötét mintákat
+  // a saját felismerési köréből.
+  const nemAktivElvarasok = p.elvarasok.filter((e) => e.allapot !== "Aktiv");
+  if (nemAktivElvarasok.length > 0) {
     leletek.push(
       lelet(
         "KARANTEN-ELVARAS",
         "informacio",
-        `${karantenElvarasok.size} elvárás nem aktív állapotú — a hiány-detekcióból kimarad.`,
-        [...karantenElvarasok],
+        `${nemAktivElvarasok.length} elvárás nem aktív állapotú — a hiány-detekcióból kimarad.`,
+        nemAktivElvarasok.map((e) => e.kod),
+      ),
+    );
+  }
+
+  const karantenosSzabalyok = p.szabalyok.filter((sz) => sz.allapot === "Karanten");
+  if (karantenosSzabalyok.length > 0) {
+    leletek.push(
+      lelet(
+        "KARANTEN-SZABALY",
+        "informacio",
+        `${karantenosSzabalyok.length} szabály karanténban — ezekre épülő megállapítás nem adható ki, az előhívás kihagyja őket.`,
+        karantenosSzabalyok.map((sz) => sz.kod),
+      ),
+    );
+  }
+
+  // A vitatott technika kiadható, de a riportnak jeleznie kell — ha egy MVP-szabály
+  // ilyenre épül, azt a kiadás-előtti kapunak látnia kell.
+  const vitatottTechnikak = new Set(
+    p.technikak.filter((t) => t.allapot === "Vitatott").map((t) => t.kod),
+  );
+  const vitatottraEpulo = aktivSzabalyok.filter(
+    (sz) => sz.mvpStatusz === MVP_MAG && sz.technikak.some((t) => vitatottTechnikak.has(t)),
+  );
+  if (vitatottraEpulo.length > 0) {
+    leletek.push(
+      lelet(
+        "VITATOTT-TECHNIKA",
+        "figyelmeztetes",
+        `${vitatottraEpulo.length} MVP-mag szabály vitatott állapotú technikára épül — ezek megállapításai a kiadás-előtti emberi kapuba tartoznak.`,
+        vitatottraEpulo.map((sz) => sz.kod),
       ),
     );
   }

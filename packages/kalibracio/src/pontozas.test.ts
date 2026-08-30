@@ -4,6 +4,7 @@ import type { Detekcio, FuttatasEredmeny, MintaTipus } from "@meggyozes/core";
 import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia.js";
 import {
   elvarasokatElemez,
+  goldLint,
   futastOsszesit,
   kiadottKodok,
   tesztetPontoz,
@@ -231,5 +232,94 @@ describe("futastOsszesit", () => {
     const o = futastOsszesit([]);
     expect(o.passArany).toBe(1);
     expect(o.kotelezoRecall).toBe(1);
+  });
+});
+
+describe("elvarasokatElemez — valódi gold-sorokon (aranystandard, 2026-08-29)", () => {
+  it("a sorszámozott tételeket soronként bontja, a leíró szöveget elhagyja", () => {
+    const gold = [
+      "1. J-001 Visszaszámláló a felületen — a szövegben: »AZ AJÁNLAT LEJÁR: 02 : 14 : 36«",
+      "4. J-034 Hiányzik a lejárat utáni állapot megnevezése a határidő mellett",
+    ].join("\n");
+    const { tetelek } = elvarasokatElemez(gold);
+    expect(tetelek.map((t) => t.kodok)).toEqual([["J-001"], ["J-034"]]);
+  });
+
+  it("a zárójeles kód KONTEXTUS, nem külön kötelező tétel", () => {
+    // Ha a TK-010 kötelező tételnek számítana, a pontozó a kötelezők számát
+    // felfújná, és a recall rendszeresen alulmérne.
+    const { tetelek } = elvarasokatElemez(
+      "5. J-003 Kedvezmény-állítás áthúzott árral vagy százalékkal — »Korábbi ár: 129 990 Ft« (TK-010)",
+    );
+    expect(tetelek).toHaveLength(1);
+    expect(tetelek[0]?.kodok).toEqual(["J-003"]);
+    expect(tetelek[0]?.kontextusKodok).toEqual(["TK-010"]);
+    expect(tetelek[0]?.bizonytalan).toBe(true);
+  });
+
+  it("a per-jeles kódfutam VAGY-alternatíva, nem konjunkció", () => {
+    // Konjunkcióként olvasva a teszt indokolatlan FAIL-t kapna.
+    const { tetelek } = elvarasokatElemez(
+      "1. J-450/J-338 — névvel ellátott vásárlói vélemény-blokk társas bizonyítékként",
+    );
+    expect(tetelek).toHaveLength(1);
+    expect(tetelek[0]?.kodok).toEqual(["J-450", "J-338"]);
+  });
+
+  it("a vegyes jel/technika per-futamot is alternatívaként kezeli", () => {
+    const { tetelek } = elvarasokatElemez("2. J-049/TK-042-irány: legalább »forrásolás hiánya«");
+    expect(tetelek).toHaveLength(1);
+    expect(tetelek[0]?.kodok).toEqual(["J-049", "TK-042"]);
+  });
+
+  it("a per-jeles alternatíva bármelyik ága teljesíti a tételt", () => {
+    const p = tesztetPontoz(
+      elvaras({ kotelezo: elvarasokatElemez("1. J-450/J-338 — vélemény-blokk").tetelek }),
+      eredmeny([det("J-338")]),
+      terkep,
+    );
+    expect(p.pass).toBe(true);
+  });
+
+  it("a «(levezetett — …)» fejlécsor kód nélküliként kerül nyilvántartásba", () => {
+    const { tetelek, kodNelkuliSorok } = elvarasokatElemez(
+      "(levezetett — kalibrációs futással megerősítendő)\n1. J-450 vélemény-blokk",
+    );
+    expect(tetelek).toHaveLength(1);
+    expect(kodNelkuliSorok).toHaveLength(1);
+  });
+
+  it("ha a soron CSAK zárójeles kód áll, az mégis a tétel hordozója", () => {
+    const { tetelek } = elvarasokatElemez("3. Promóciós banner-keretezés akció-jelekkel (J-003)");
+    expect(tetelek[0]?.kodok).toEqual(["J-003"]);
+  });
+});
+
+describe("goldLint — mit kell strukturálni a goldban a CI előtt", () => {
+  it("felsorolja a feltételezésre szoruló sorokat és a kód nélküli elvárásokat", () => {
+    const kotelezoSzoveg = [
+      "(levezetett — kalibrációs futással megerősítendő)",
+      "1. J-450/J-338 — vélemény-blokk",
+      "2. J-003 kedvezmény-állítás (TK-010)",
+      "3. J-036 sürgető felszólítás",
+    ].join("\n");
+    const elemzes = elvarasokatElemez(kotelezoSzoveg);
+    const leletek = goldLint([
+      elvaras({ kotelezo: elemzes.tetelek, kodNelkuliSorok: elemzes.kodNelkuliSorok }),
+    ]);
+
+    expect(leletek).toHaveLength(3);
+    expect(leletek.map((l) => l.ok)).toEqual([
+      expect.stringContaining("per-jeles"),
+      expect.stringContaining("zárójeles kód (TK-010)"),
+      expect.stringContaining("gépileg nem pontozható"),
+    ]);
+    // A tiszta sor (3.) nem kerül a listára.
+    expect(leletek.some((l) => l.sor.includes("J-036"))).toBe(false);
+  });
+
+  it("hibátlanul strukturált goldra üres a lista", () => {
+    const elemzes = elvarasokatElemez("1. J-011\n2. J-033");
+    expect(goldLint([elvaras({ kotelezo: elemzes.tetelek })])).toEqual([]);
   });
 });

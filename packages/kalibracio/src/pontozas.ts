@@ -23,6 +23,10 @@ export interface ElvarasTetel {
   readonly kodok: readonly string[];
   /** Az eredeti sor a gold-ból — a riportban ezt mutatjuk, nem a kódlistát. */
   readonly nyers: string;
+  /** Igaz, ha a sor értelmezése feltételezésen áll (zárójeles vagy per-jeles kód). */
+  readonly bizonytalan?: boolean;
+  /** Zárójelben álló kódok: a tétel kontextusa, nem külön kötelező találat. */
+  readonly kontextusKodok?: readonly string[];
 }
 
 export interface TesztElvaras {
@@ -42,12 +46,52 @@ export interface TesztElvaras {
 /**
  * Szabad szövegű gold-mezőt tételekre bont.
  *
- * Formátum-szabály (a gold-sorok tényleges alakjából):
- *  - a sorok/pontok külön tételek (újsor, «;», «·», «•», «—» listajel);
- *  - ha egy soron belül a «VAGY» szó szerepel, a sor egyetlen VAGY-tétel;
- *  - egyébként a soron belüli minden kód külön kötelező tétel;
- *  - kód nélküli sor nem pontozható, de nyilván van tartva.
+ * A gold elvárás-mezői EMBERI PRÓZÁK, nem kódlisták — a #1–#6 kalibrációs futást
+ * LLM-pontozók értékelték, akik értik a szövegkörnyezetet. Egy determinisztikus
+ * pontozónak ez három konstrukciót jelent, amit külön kell kezelni:
+ *
+ *  1. SORSZÁMOZOTT TÉTELEK — «1. J-001 Visszaszámláló a felületen — …». Ez a
+ *     törzseset: soronként egy kötelező tétel.
+ *  2. PER-JELES VAGY — «J-450/J-338 — névvel ellátott vélemény-blokk». A per
+ *     alternatívát jelent, nem konjunkciót; a «VAGY» szó nem mindig van kiírva.
+ *     Konjunkcióként olvasva a pontozó indokolatlan FAIL-t adna.
+ *  3. ZÁRÓJELES HIVATKOZÁS — «J-003 Kedvezmény-állítás … (TK-010)». A zárójeles
+ *     kód a tétel KONTEXTUSA (melyik technikához tartozik), nem külön kötelező
+ *     találat. Kötelezőként olvasva a pontozó a kötelező tételek számát felfújná,
+ *     és a recall rendszeresen alulmérne.
+ *
+ * A feldolgozás ezért konzervatív: a zárójeles kód nem lesz kötelező tétel, a
+ * per-jeles futam pedig egyetlen VAGY-tétel. A két konstrukciót érintő sorok
+ * `bizonytalan` jelölést kapnak — a `goldLint()` ezekből állítja elő azt a listát,
+ * amit a gold strukturálásakor kézzel kell rendezni.
  */
+
+interface KodTalalat {
+  readonly kod: string;
+  readonly kezdet: number;
+  readonly veg: number;
+}
+
+const KOD_KERESO = /(?<![\p{L}\p{N}_-])(TK|EL|J|S|D|K)-(\d{1,4})(?:-(\d{1,3}|\*))?/giu;
+
+function zarojelTartomanyok(sor: string): Array<[number, number]> {
+  const tartomanyok: Array<[number, number]> = [];
+  for (const m of sor.matchAll(/\(([^)]*)\)/gu)) {
+    if (m.index !== undefined) tartomanyok.push([m.index, m.index + m[0].length]);
+  }
+  return tartomanyok;
+}
+
+function kodTalalatok(sor: string): KodTalalat[] {
+  const talalatok: KodTalalat[] = [];
+  for (const m of sor.matchAll(KOD_KERESO)) {
+    if (m.index === undefined) continue;
+    const kod = kodErtekeketKinyer(m[0])[0];
+    if (kod) talalatok.push({ kod, kezdet: m.index, veg: m.index + m[0].length });
+  }
+  return talalatok;
+}
+
 export function elvarasokatElemez(szoveg: string | undefined): {
   tetelek: ElvarasTetel[];
   kodNelkuliSorok: string[];
@@ -58,22 +102,98 @@ export function elvarasokatElemez(szoveg: string | undefined): {
 
   const sorok = szoveg
     .split(/\r?\n|;|·|•/u)
-    .map((s) => s.replace(/^\s*[-–—*]\s*/u, "").trim())
+    // Listajel és sorszámozás levágása: «- », «— », «1. », «2) »
+    .map((s) => s.replace(/^\s*(?:[-–—*]|\d{1,2}[.)])\s*/u, "").trim())
     .filter((s) => s.length > 0);
 
   for (const sor of sorok) {
-    const kodok = kodErtekeketKinyer(sor);
-    if (kodok.length === 0) {
+    const osszes = kodTalalatok(sor);
+    if (osszes.length === 0) {
       kodNelkuliSorok.push(sor);
       continue;
     }
-    if (/\bVAGY\b/iu.test(sor) && kodok.length > 1) {
-      tetelek.push({ kodok, nyers: sor });
-    } else {
-      for (const kod of kodok) tetelek.push({ kodok: [kod], nyers: sor });
+
+    const zarojelek = zarojelTartomanyok(sor);
+    const zarojelben = (t: KodTalalat) =>
+      zarojelek.some(([kezd, veg]) => t.kezdet >= kezd && t.veg <= veg);
+
+    const kontextusKodok = osszes.filter(zarojelben).map((t) => t.kod);
+    const fotelek = osszes.filter((t) => !zarojelben(t));
+
+    // Ha a soron CSAK zárójeles kód van, az mégis a tétel hordozója — ilyenkor
+    // kötelezőnek vesszük, különben a sor némán kiesne a pontozásból.
+    const alap = fotelek.length > 0 ? fotelek : osszes;
+
+    // Per-jellel összekötött szomszédos kódok egyetlen VAGY-csoportot alkotnak.
+    const csoportok: string[][] = [];
+    let perJelesVolt = false;
+    for (const talalat of alap) {
+      const elozo = csoportok.at(-1);
+      const elozoTalalat = alap[alap.indexOf(talalat) - 1];
+      const kozotte =
+        elozoTalalat === undefined ? undefined : sor.slice(elozoTalalat.veg, talalat.kezdet);
+      if (elozo && kozotte !== undefined && /^\s*\/\s*$/u.test(kozotte)) {
+        elozo.push(talalat.kod);
+        perJelesVolt = true;
+      } else {
+        csoportok.push([talalat.kod]);
+      }
+    }
+
+    // Kiírt «VAGY» esetén az egész sor egyetlen alternatíva-halmaz.
+    const vagySzoval = /\bVAGY\b/u.test(sor);
+    const veglegesek = vagySzoval && csoportok.length > 1 ? [csoportok.flat()] : csoportok;
+
+    const bizonytalan = kontextusKodok.length > 0 || perJelesVolt;
+    for (const kodok of veglegesek) {
+      tetelek.push(
+        bizonytalan
+          ? { kodok, nyers: sor, bizonytalan: true, kontextusKodok }
+          : { kodok, nyers: sor },
+      );
     }
   }
   return { tetelek, kodNelkuliSorok };
+}
+
+/**
+ * Gold-lint: azok a sorok, amelyeket egy determinisztikus pontozó csak feltételezéssel
+ * tud értelmezni. Nem hiba — a gold emberi pontozásra készült. A lista azt mondja meg,
+ * mely sorokat kell strukturált mezőbe emelni, mielőtt a CI-re bízzuk a kaput.
+ */
+export interface GoldLintLelet {
+  readonly azonosito: string;
+  readonly mezo: "kotelezo" | "tiltott";
+  readonly sor: string;
+  readonly ok: string;
+}
+
+export function goldLint(elvarasok: readonly TesztElvaras[]): GoldLintLelet[] {
+  const leletek: GoldLintLelet[] = [];
+  for (const e of elvarasok) {
+    for (const t of e.kotelezo) {
+      if (t.bizonytalan === true) {
+        leletek.push({
+          azonosito: e.azonosito,
+          mezo: "kotelezo",
+          sor: t.nyers,
+          ok:
+            (t.kontextusKodok?.length ?? 0) > 0
+              ? `zárójeles kód (${t.kontextusKodok?.join(", ")}) — kötelező tétel vagy kontextus?`
+              : "per-jeles kódfutam — VAGY-alternatíva vagy két külön tétel?",
+        });
+      }
+    }
+    for (const sor of e.kodNelkuliSorok) {
+      leletek.push({
+        azonosito: e.azonosito,
+        mezo: "kotelezo",
+        sor,
+        ok: "kód nélküli elvárás — gépileg nem pontozható",
+      });
+    }
+  }
+  return leletek;
 }
 
 export interface TetelErtekeles {

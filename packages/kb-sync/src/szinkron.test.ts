@@ -162,6 +162,33 @@ describe("konzisztenciatEllenoriz — a néma kiesés detektálása", () => {
     expect(kodok(leletek)).toContain("ROSSZ-JO");
   });
 
+  it("a Technikatár «Kerülendő» állapota NEM adatkarantén — a sötét technikát detektálni kell", () => {
+    // TK-001 «Hamis visszaszámláló» azért Kerülendő, mert a technika kerülendő.
+    // Ha ezt karanténnak vennénk, a rendszer kizárná a sötét mintákat a saját
+    // felismerési köréből — pont azt, amiért a termék létezik.
+    const leletek = konzisztenciatEllenoriz({
+      ...alap,
+      szabalyok: [jo],
+      technikak: [
+        {
+          kod: "TK-001",
+          nev: "Hamis visszaszámláló",
+          meghatarozas: undefined,
+          sotetValtozat: undefined,
+          legitimValtozat: undefined,
+          valasztovonal: undefined,
+          allapot: "Kerulendo",
+          jogiTet: true,
+          jelek: [],
+          szabalyok: [],
+          notionUrl: "https://notion.so/tk1",
+        },
+      ],
+    });
+    expect(kodok(leletek)).not.toContain("KARANTEN");
+    expect(elesitheto(leletek)).toBe(true);
+  });
+
   it("az árva reláció HIBA, és blokkolja az élesítést", () => {
     const leletek = konzisztenciatEllenoriz({ ...alap, szabalyok: [jo] }, [
       { tar: "szabalytar", kod: "S-9-1", mezo: "Kiváltó jelek", ismeretlenIdk: ["x"] },
