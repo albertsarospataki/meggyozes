@@ -1,134 +1,132 @@
-# Tervezői mód — funkció-architektúra
+# Tervezői mód — funkció-architektúra (v2)
 
-*2026-09-01 · javaslat a fejlesztői specifikáció v1.0 kiegészítésére*
+*2026-09-01 · a v1 központi állítását ez a változat javítja, a Cursor párhuzamos
+javaslatával összevetve és élő lekérdezésekkel ellenőrizve*
 
 Vizuális változat: [Tervezői mód](https://claude.ai/code/artifact/655d41d6-0373-4882-b9d7-f3416f1dcb0a)
 
-## A feladat
+## Amit a v1 félreírt
 
-A szoftver ma azt nézi meg, mi épült meg. A tervezői mód azt nézi meg, mi fog
-megépülni: hűségprogramot, akciót, promóciót, árazási konstrukciót, webes
-összeállítást, briefet — még mielőtt kimenne. A marketinges beszélgethet vele, és
-tanácsot kérhet egy készülő konstrukcióhoz.
+A v1 azt állította: a lánc jelekre van kulcsolva, egy tervnek nincs jele, tehát kell
+egy hídtábla — és *ez az egyetlen valódi akadály*. Az utolsó tagmondat téves.
 
-## A központi felismerés
-
-A mai lánc **jelekre van kulcsolva**: az artefaktumon megfigyelt jelek hívják elő a
-szabályokat. Egy tervnek nincs artefaktuma, tehát nincs jele — a P2 lépésnek nincs
-mit néznie. Ez az egyetlen valódi akadály.
-
-A híd egy tábla, ami azt mondja meg: **ez a tervezési döntés ezeket a jeleket fogja
-előállítani.** „Lejáró hűségpont" → J-011, J-030, J-033. Ha ez megvan, a terv
-leképezhető *várható* jelekre, és onnantól a teljes meglévő lánc változatlanul fut.
+**Két előhívási út van, és a második már ma is működik.** A Szabálytár
+`Kiváltó feltétel` mezője **4 378 szabálynál (98,7%)** ki van töltve, és a tervezési
+szabályoknál nem megfigyelést ír le, hanem szándékot:
 
 ```
-MAI AUDIT      Artefaktum ──megfigyelés──> P2 jel-detektálás ──┐
-                                                               ├──> Jelek ──> P7 szabály-előhívás
-TERVEZŐI MÓD   Terv ──> T1 elem-bontás ──> KE-tár ──várható──┘              P8 kombináció
-                              [ÚJ]          [ÚJ · A HÍD]     jelek           P9–P11 riport
-                                                                             [változatlan]
+S-126-1
+  Kiváltó feltétel:   "hűségprogramot indítasz"
+  Szabály:            HA hűségprogramot indítasz → AKKOR először ellenőrizd a vásárlási
+                      gyakoriságot (kávé, drogéria, üzemanyag: igen; bútor, ingatlan,
+                      autó: nem), és ha indul, a haladás legyen mindig látható
+                      · MERT M05 + M32 mellett a haladás láthatósága (M85) hajtja
+  Kiváltó jelek:      nincs
+  Automatizálhatóság: Emberi
 ```
+
+Kész tervezési tanács, jel nélkül. A jel-úton soha nem hívható elő — és nem is kell.
+
+## A két út
+
+```
+AUDIT          Artefaktum ──> P2 jel-detektálás ──> Jelek ──┐
+                                                            ├──> P7 szabály-előhívás
+TERVEZŐI  ┌──> T1 elem-bontás ──> KE-tár ──tervezett jelek──┘    P8 kombináció
+  Szándék ┤                                                      P9–P11 riport
+          └──────── KON-típus → Kiváltó feltétel ──────────────>  [változatlan]
+                    (ma is működik, csak címke kell)
+```
+
+A két út **különböző szabályokat ér el**. Az alsó azokat, amiknek a kiváltója egy
+döntés; a felső azokat, amiknek a kiváltója egy megfigyelhető jel.
 
 ## Ami már megvan (élő mérés, 2026-09-01)
 
 | Mutató | Érték | Miért számít |
 |---|---|---|
-| „Előírás" típusú szabály | **1 806** | Nem tiltás, hanem előírás: mit tegyél. + 457 feltételes, 844 eljárási |
-| Küszöb / paraméter kitöltve | **3 868 (87%)** | A szám, amit a tervben be kell állítani |
-| Ellenjavallat kitöltve | **3 965 (89%)** | Mikor NE — tervezői módban ez ér a legtöbbet |
-| Folyamat / rendszer hatókörű szabály | **1 255** | Eleve konstrukciókról szólnak, nem oldalakról |
-| Kombináció-sor | **112** | Mely elemek erősítik és melyek oltják ki egymást |
-| Elvárás | **120** | Ebből lesz a terv-ellenőrzőlista |
-| Bemenetkérő kérdés | **86** | „Kitől kérhető" mezőben szerepel *„A cég marketingesétől"* |
-| Preskriptív technika (TK-109…TK-150) | **42** | Az előző körben héjként jelölve — most kiderült, mire valók |
+| Kiváltó feltétel kitöltve | **4 378 (98,7%)** | Az alsó út alapja |
+| „Előírás" típusú szabály | **1 806** | + 457 feltételes, 844 eljárási |
+| Küszöb / paraméter · Ellenjavallat | **3 868 (87%) · 3 965 (89%)** | A beállítandó szám, és hogy mikor NE |
+| Emberi + jel nélküli artefaktum-szabály | **569** | Az auditláncnak örökre láthatatlan |
+| Kombináció-sor | **112** | „Ha ezt a kettőt együtt tervezed, kioltják egymást" |
+| Marketingestől kérhető bemenetkérő kérdés | **31 / 86** | A párbeszéd kérdésbankja |
+| Preskriptív technika (TK-109…TK-150) | **42** | Az előző kör „héj"-lelete — tervezési technikák |
 
-A szabályok HA→AKKOR→MERT alakban íródtak, küszöbbel és ellenjavallattal — vagyis
-pontosan a tervezési tanács alakjában.
+## A mód nem detektál, hanem kérdez
 
-## Amit építeni kell
+A „HA … indítasz" alakú szabályok fele **Emberi** automatizálhatóságú (51 az 51+48-ból),
+és 55-nek nincs jele. Az S-126-1 sem ellenőrizhető gépileg: a „milyen gyakran vásárol a
+tipikus vevőd" kérdésre csak a cég tud válaszolni.
 
-**1. Konstrukciós elem-tár (KE-kódok) — a híd.** Minden sor egy tervezési döntés
-(„a pont 12 hónap után lejár", „az ajánlói jutalom mindkét félnek jár"). Mezők:
-KE-kód, konstrukció-típus, mit jelent konkrétan, **várható jelek** (reláció →
-Jeltár, ez a híd), kiváltott technikák, kötelező kísérő elem, paraméterek,
-alapértelmezett sáv. Egyetlen konstrukció-típussal kezdeni: hűségprogram, 30–40 elem.
+Ebből következik, hogy a **Bemenetkérő-tár nem kiegészítő, hanem a végrehajtó motor**:
+a szabály feltételét kérdéssé fordítja, a választ visszavezeti a szabályhoz.
 
-**2. Konstrukció-típus mint önálló facett** — nem új artefaktum-osztály. A terv nem
-másik *felület*, hanem másik *bemenet-fajta*; egy hűségprogram-terv érinthet webet,
-e-mailt és checkoutot egyszerre.
+A hiányzó huzalozás: **4 437 szabályból 117** van kérdéshez kötve, a 86 kérdésből
+**26 nincs egyetlen szabályhoz sem** kötve, és a belépő szinten **8 kérdés** áll.
 
-**3. Technika-szerep mező** (*detektálási* vs. *tervezési*) + a 42 preskriptív
-technika kitöltése. Ez feloldja az előző kör „héj-technika" leletét: nem külön tárba
-kell emelni őket, hanem más mezőkészlet kell hozzájuk. Egy tervezési technikának nem
-sötét/legitim párja van, hanem *mikor alkalmazd · mikor ne · mivel jár együtt ·
-milyen paraméterrel*.
+## Amit építeni kell — javított sorrend
 
-**4. Bemenetkérő 0. szint: konstrukciós szándék** + a `Feloldott szabályok` reláció
-végigvezetése. Ma **4 437-ből 117** szabály van kérdéshez kötve, vagyis a „mit
-kérdezzek, hogy eldőljön" út nagyrészt hiányzik. Az auditban a hiányzó kontextus egy
-megjegyzés; a tervezői módban a marketinges kérdezni fog.
-
-**5. Konstrukciós gold-teszttípus**: befagyasztott brief + elvárt elemek + elvárt
-kockázatok + **tiltott javaslatok**. A kontroll-minta fordított logikájú: olyan
-brief, amire a helyes válasz „ezt ne építsd meg". Lehetőség: az előző kör leletét (a
-kapu in-sample) itt ingyen orvosolni lehet — a konstrukciós gold *most* épül, eleve
-tanuló/held-out bontásban.
-
-**6. Kombináció-tár**: átfordítás nélkül használhatóvá válik, amint a KE-tár leképezi
-az elemeket jelekre. Egy hibát javítani kell előtte: **27 sornál csak egyetlen jel
-szerepel** az együttállók közt.
+1. **KON-típus címke a meglévő szabályokon.** `KON-HUS` · `KON-AKC` · `KON-ARA` ·
+   `KON-KAM` · `KON-WEB` · `KON-KOM`. A `Kiváltó feltétel` szabad szöveg; egy szándékot
+   4 378 szabad szöveges feltételhez illeszteni pontosan az a homályos előhívás, amit a
+   projekt fegyelme tilt. A címke a determinisztikus kulcs. **Nulla új tartalom, több
+   száz tervezési szabály elérhetővé válik** — ezért került az első helyre.
+2. **Intent — verziózott szándék-objektum.** Típus, cél, közönség, mechanika, ígéret,
+   csatorna, időtartam, korlát. A verziózás nem kényelem: „mi van, ha ajándék, nem
+   százalék?" új verzió, és a **különbséget** kell mutatni, nem új riportot.
+3. **„Tervezett" bizonyíték-fokozat.** Ugyanaz a J-kód, más szint: tény / **tervezett**
+   / gyanú / nem eldönthető. A tervezett soha nem számít bizonyított problémának.
+   Olcsó: a kód már ismeri a fokozatot, egy értékkel bővül.
+4. **Technika-szerep mező** (Detektálási | Tervezési | Mindkettő). Az `Állapot` a
+   legitimitást jelöli, nem a szerepet. Ezzel a 42 „héj-technika" lelete besorolás lesz,
+   nem hiba.
+5. **1C belépő kérdéscsomagok** típusonként 6–10 kérdés + a `Feloldott szabályok`
+   reláció. Konkrét hiány: a vásárlási gyakoriság kérdése nincs meg, enélkül az S-126-1
+   nem futtatható.
+6. **KE-tár** — csak a felső úthoz, és későbbre. Valós igény („visszaszámláló a
+   landingen" → J-001, J-011), de nem ez nyitja meg a funkciót.
 
 ## Egy döntés, ami nem halasztható
 
-A Constitution §4 szerint a jogi/etikai KO-sávot érintő javaslat kimegy, **mellette**
-figyelmeztetéssel. Ez egy *meglévő* oldal auditjára jó döntés — a technika már ott
-van, a feladat a rámutatás.
+A Constitution §4: a KO-sávot érintő javaslat kimegy, **mellette** figyelmeztetéssel.
+Ez egy *meglévő* oldal auditjára jó döntés.
 
-A tervezői módban a rendszer azt mondja meg, **mit építsenek**. Ha egy javasolt
-konstrukció jogi KO-sávba esne, azt nem elég lábjegyzetelni.
+A tervezői módban a rendszer azt mondja meg, **mit építsenek**. Az aszimmetria a
+következmény oldalán van: **egy audit, ami elnéz valamit, egy elmaradt javítást ér; egy
+tanács, ami sötét mintát javasol, létrehozza a kárt.**
 
-Az aszimmetria a következmény oldalán van: **egy audit, ami elnéz valamit, egy
-elmaradt javítást ér; egy tanács, ami sötét mintát javasol, létrehozza a kárt.**
-
-*Javaslat:* a KO-sáv a tervezői módban **kemény kapu a javaslat előtt**, nem
-megjegyzés mellette — a konstrukció nem kerül be a javasoltak közé, helyette a
-rendszer megnevezi, mi ütközik, és felajánlja a nem ütköző változatot. A MELLETT-elv
-változatlan marad ott, ahol a helyén van: a meglévő artefaktum auditjában.
-**Ez Constitution-módosítás, Albert döntése — nem levezetés.**
-
-## A lánc
-
-| # | Lépés | Állapot |
-|---|---|---|
-| T0 | Konstrukciós kapu — mit tervezel, kinek, mikor, milyen joghatóság | **új** |
-| T1 | Elem-bontás — a brief lebontása KE-kódokra | **új** |
-| T2 | Hiány-lista — mely elemek hiányoznak (Elvárás-lista + kötelező kísérő elem) | **új** |
-| T3 | Várható jelek — KE → J-kód leképezés, determinisztikus | **új** |
-| T4 | Szabály-előhívás | P7 |
-| T5 | Kockázati előrejelzés — mely KO-sávok aktiválódnának | sávok |
-| T6 | Kombináció-elemzés | P8 |
-| T7 | Konstrukció-javaslat paraméterekkel | P10 |
-| T8 | Paraméter-bekérő — számot itt sem talál ki | P6/P0 |
-| T9 | Brief-kimenet + indulás előtti ellenőrzőlista + mérési terv | P11 |
-
-Két üzemmód, egy lánc: a *validáció* kész briefből indul, a *tervezés* egy
-konstrukció-típusból.
+*Javaslat:* a KO-sáv itt **kemény kapu a javaslat előtt**, nem megjegyzés mellette. A
+MELLETT-elv változatlan marad az auditban. **Ez Constitution-módosítás — Albert
+döntése.**
 
 ## Építési sorrend
 
-1. **A KO-kapu döntése** — ez határozza meg a T5 és T7 viselkedését, tehát a lánc alakját.
-2. **Technika-szerep mező + a 42 preskriptív technika kitöltése** (kezdés: TK-140, TK-141 — jogi tétűek).
-3. **KE-tár egyetlen konstrukció-típusra** — hűségprogram, 30–40 elem, kitöltött „várható jelek" relációval.
-4. **15–20 befagyasztott brief**, eleve tanuló/held-out bontásban, köztük 4–5 „ezt ne építsd meg" kontroll.
-5. **T0–T3 kódban**, a T4+ újrahasznosításával.
-6. **Bemenetkérő 0. szint + Feloldott szabályok reláció** az MVP-magra.
-7. **A következő konstrukció-típus** — promóció vagy árazás; onnantól csak KE-sorok kérdése.
+| Mikor | Mit |
+|---|---|
+| **0.** | A KO-kapu döntése — ez határozza meg, mit adhat ki a mód |
+| **S0** | Címkézés, új szöveg nélkül: KON-típus · Technika-szerep · Intent-séma · 1C csomagok · 15 terv-gold váza |
+| **M1** | Két gomb a pulton: Audit / Tanács. A Tanács először csak a szándékot menti és kérdez |
+| **M2** | Élő tanács az **alsó úton**, 15 gold-teszttel. KE-tár még nem kell |
+| **M3** | „Mi van, ha…" iteráció, brief-csatolás, KE-tár az első konstrukció-típusra |
+
+A **15 terv-aranystandard a kiadás feltétele**, nem utómunka. Köztük 4–5 olyan brief,
+amire a helyes válasz „ezt ne építsd meg" — ez a mód kontroll-mintája. És mivel ez a
+gold *most* épül, itt ingyen orvosolható az előző kör lelete: **vágjuk eleve tanuló és
+held-out részre.**
 
 ## Amit ne csináljunk
 
-- **Ne írjunk új szabálytömeget hozzá.** A tervezői mód nem több tudást igényel, hanem
-  másik bejáratot a meglévőhöz.
-- **Ne engedjük improvizálni.** Amire nincs szabály, arra a helyes válasz: „erre nincs
-  szabályom" — ez a „nem eldönthető" tervezői megfelelője.
-- **Ne legyen külön termék.** Külön lánc + külön tár + külön kalibráció két
-  karbantartandó rendszert jelent, amik szét fognak csúszni. Egy motor, két bemenet.
+- **Ne írjunk új szabálytömeget hozzá** — másik bejárat kell, nem több tudás.
+- **Ne legyen szabad LLM-chat a DET-réteg megkerülésével.** A beszélgetés kötött.
+- **Ne írjon kampányt helyettük, és ne találjon ki százalékot.** Gyakran a helyes
+  válasz az, hogy előbb kontrollcsoport kell.
+- **Ne legyen külön termék.** Egy motor, két bemenet.
+
+---
+
+*Forrás-elhatárolás: a KON-típus, az Intent-verziózás, a tervezett-jel fokozat, a
+Technika-szerep és az S0/M1–M3 ütemezés a Cursor párhuzamos javaslatából való; a két út
+szétválasztása, a kérdező-motor következtetés, a Kombináció-tár szerepe, a held-out
+bontás és a KO-kapu kérdése innen. Minden ellenőrizhető állítás élő lekérdezéssel
+igazolva.*
