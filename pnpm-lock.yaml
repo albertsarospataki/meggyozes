@@ -45,6 +45,12 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/kerdezz:
+    dependencies:
+      '@meggyozes/brand':
+        specifier: workspace:*
+        version: link:../brand
+
   packages/projekt:
     dependencies:
       '@meggyozes/core':

@@ -55,8 +55,37 @@ const DATUM_ELVALASZTO = /[-./]/;
 const MAGAZO_JELOLOK: readonly string[] = ["on", "ont", "onnek", "onok", "onnel", "szíveskedjen", "sziveskedjen"];
 const TEGEZO_JELOLOK: readonly string[] = ["te", "teged", "neked", "nalad", "tied", "hozzad"];
 
-function szamotNormalizal(nyers: string): string {
+/** Számok összevetéséhez: ékezettelen, szóköz nélküli, tizedespontos alak. */
+export function szamotNormalizal(nyers: string): string {
   return keresesiAlak(nyers).replace(/\s+/g, "").replace(/,/g, ".");
+}
+
+export interface SzamTalalat {
+  readonly ertek: string;
+  readonly kezdet: number;
+  readonly hossz: number;
+}
+
+/**
+ * Számok keresése szövegben, dátum- és évszám-kihagyással.
+ *
+ * A Kérdezz mód ugyanezt a szótárt használja (ott a forrásból idézett szám az
+ * engedélyezett), ezért a minta egy helyen él: két külön szám-felismerő két külön
+ * igazságot adna arról, mi számít számnak.
+ */
+export function szamTalalatok(szoveg: string): SzamTalalat[] {
+  const talalatok: SzamTalalat[] = [];
+  for (const talalat of szoveg.matchAll(SZAM_MINTA)) {
+    const nyers = talalat[0];
+    const kezdet = talalat.index;
+    if (nyers.trim() === "" || kezdet === undefined) continue;
+    const csakSzam = nyers.trim().replace(/[^\d.,]/g, "");
+    if (EVSZAM_MINTA.test(csakSzam)) continue;
+    const elotte = kezdet >= 2 ? szoveg.slice(kezdet - 2, kezdet) : "";
+    if (elotte.length === 2 && DATUM_ELVALASZTO.test(elotte[1] ?? "") && /\d/.test(elotte[0] ?? "")) continue;
+    talalatok.push({ ertek: nyers.trim(), kezdet, hossz: nyers.trimEnd().length });
+  }
+  return talalatok;
 }
 
 /**
@@ -146,19 +175,8 @@ export function brandOr(bemenet: BrandOrBemenet): BrandOrEredmeny {
 
   // 2. Nem igazolt szám — helyőrző + mérési utasítás.
   const engedelyezett = igazoltSzamok(profil, bemenet.idezettForrasok ?? [], mikor);
-  const szamTalalatok: { kezdet: number; hossz: number; ertek: string }[] = [];
-  for (const talalat of szoveg.matchAll(SZAM_MINTA)) {
-    const nyers = talalat[0];
-    const kezdet = talalat.index;
-    if (nyers.trim() === "" || kezdet === undefined) continue;
-    const csakSzam = nyers.trim().replace(/[^\d.,]/g, "");
-    if (EVSZAM_MINTA.test(csakSzam)) continue;
-    const elotte = kezdet >= 2 ? szoveg.slice(kezdet - 2, kezdet) : "";
-    if (elotte.length === 2 && DATUM_ELVALASZTO.test(elotte[1] ?? "") && /\d/.test(elotte[0] ?? "")) continue;
-    if (engedelyezett.has(szamotNormalizal(nyers))) continue;
-    szamTalalatok.push({ kezdet, hossz: nyers.trimEnd().length, ertek: nyers.trim() });
-  }
-  for (const t of szamTalalatok) {
+  const szamok = szamTalalatok(szoveg).filter((t) => !engedelyezett.has(szamotNormalizal(t.ertek)));
+  for (const t of szamok) {
     kifogasok.push({
       szabaly: "nem-igazolt-szam",
       szint: "helyorzo",

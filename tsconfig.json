@@ -7,6 +7,7 @@
     { "path": "./packages/brand" },
     { "path": "./packages/szervezet" },
     { "path": "./packages/projekt" },
-    { "path": "./packages/tanacs" }
+    { "path": "./packages/tanacs" },
+    { "path": "./packages/kerdezz" }
   ]
 }
