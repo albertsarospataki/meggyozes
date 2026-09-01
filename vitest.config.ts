@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       "@meggyozes/core": new URL("./packages/core/src/index.ts", import.meta.url).pathname,
       "@meggyozes/brand": new URL("./packages/brand/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/projekt": new URL("./packages/projekt/src/index.ts", import.meta.url).pathname,
     },
   },
 });

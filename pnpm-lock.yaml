@@ -53,6 +53,15 @@ importers:
 
   packages/szervezet: {}
 
+  packages/tanacs:
+    dependencies:
+      '@meggyozes/brand':
+        specifier: workspace:*
+        version: link:../brand
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
+
 packages:
 
   '@esbuild/aix-ppc64@0.21.5':

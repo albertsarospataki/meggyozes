@@ -6,6 +6,7 @@
     { "path": "./packages/kalibracio" },
     { "path": "./packages/brand" },
     { "path": "./packages/szervezet" },
-    { "path": "./packages/projekt" }
+    { "path": "./packages/projekt" },
+    { "path": "./packages/tanacs" }
   ]
 }
