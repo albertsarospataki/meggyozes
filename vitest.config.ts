@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@meggyozes/core": new URL("./packages/core/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/brand": new URL("./packages/brand/src/index.ts", import.meta.url).pathname,
     },
   },
 });

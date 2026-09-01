@@ -25,7 +25,25 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.1)
 
+  packages/brand:
+    dependencies:
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/core: {}
+
+  packages/kalibracio:
+    dependencies:
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/kb-sync:
+    dependencies:
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
 
 packages:
 

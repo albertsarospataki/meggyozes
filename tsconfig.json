@@ -3,6 +3,7 @@
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/kb-sync" },
-    { "path": "./packages/kalibracio" }
+    { "path": "./packages/kalibracio" },
+    { "path": "./packages/brand" }
   ]
 }
