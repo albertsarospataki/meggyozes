@@ -1,4 +1,4 @@
-import { kodotNormalizal } from "@meggyozes/core";
+import { kodotNormalizal, type MintaTipus } from "@meggyozes/core";
 
 /**
  * A Kód-ekvivalencia térkép futásidejű alakja.
@@ -27,6 +27,13 @@ export interface EkvivalenciaTerkepAdat {
     tetel: number;
     cel: string;
     egyuttesek: ReadonlyArray<readonly string[]>;
+    /**
+     * Ha meg van adva, a fedés CSAK ilyen minta-típuson érvényes. A v7 térkép
+     * több tétele (#74, #76, #80, #83) kizárólag pozitív mintán enged fedést —
+     * negatív mintán ugyanaz a kód kötelező marad. Ezt minta-típus nélkül nem
+     * lehet helyesen pontozni: a #76 negatív mintán éppen a J-312 kiadását kéri.
+     */
+    csakMintaTipus?: MintaTipus;
     indoklas?: string;
   }>;
   readonly kompozitKodok: { readonly kodok: readonly string[]; readonly szabaly: string };
@@ -49,7 +56,10 @@ export class EkvivalenciaTerkep {
   /** cél → (forrás → tételszám) */
   readonly #tartalmazo = new Map<string, Map<string, number>>();
   /** cél → együttes fedések */
-  readonly #fedes = new Map<string, Array<{ tetel: number; kodok: string[] }>>();
+  readonly #fedes = new Map<
+    string,
+    Array<{ tetel: number; kodok: string[]; csakMintaTipus: MintaTipus | undefined }>
+  >();
   readonly #kompozit: ReadonlySet<string>;
 
   private constructor(adat: EkvivalenciaTerkepAdat) {
@@ -79,7 +89,11 @@ export class EkvivalenciaTerkep {
       const cel = kodotNormalizal(be.cel);
       const lista = this.#fedes.get(cel) ?? [];
       for (const egyuttes of be.egyuttesek) {
-        lista.push({ tetel: be.tetel, kodok: egyuttes.map(kodotNormalizal) });
+        lista.push({
+          tetel: be.tetel,
+          kodok: egyuttes.map(kodotNormalizal),
+          csakMintaTipus: be.csakMintaTipus,
+        });
       }
       this.#fedes.set(cel, lista);
     }
@@ -100,7 +114,11 @@ export class EkvivalenciaTerkep {
    * A sorrend szándékos: előbb a pontos egyezés (a leggyakoribb és legolcsóbb),
    * utána a térkép engedményei. Kompozit elvárásnál minden engedmény ki van zárva.
    */
-  teljesiti(elvart: string, kiadottakNyers: ReadonlySet<string>): TeljesitesIndok | undefined {
+  teljesiti(
+    elvart: string,
+    kiadottakNyers: ReadonlySet<string>,
+    mintaTipus?: MintaTipus,
+  ): TeljesitesIndok | undefined {
     const cel = kodotNormalizal(elvart);
     // A kiadott halmazt is normalizáljuk: a hívó nem mindig teszi meg, és egy
     // el nem párnázott kód («j-215») némán FAIL-t okozna — a legrosszabb hibafajta.
@@ -131,6 +149,10 @@ export class EkvivalenciaTerkep {
     }
 
     for (const f of this.#fedes.get(cel) ?? []) {
+      // A minta-típushoz kötött fedés más típuson NEM alkalmazható. A #76 tétel
+      // épp azért ilyen, mert negatív mintán a J-312 kiadása kötelező marad —
+      // a feltétel elhagyása itt hamis PASS-t adna.
+      if (f.csakMintaTipus !== undefined && f.csakMintaTipus !== mintaTipus) continue;
       if (f.kodok.every((k) => kiadottak.has(k))) {
         return { fajta: "fedes", tetel: f.tetel, kiadottak: f.kodok };
       }

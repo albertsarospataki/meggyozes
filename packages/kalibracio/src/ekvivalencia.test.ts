@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia.js";
 
 const adat = JSON.parse(
-  readFileSync(new URL("../data/ekvivalencia-terkep.v4.json", import.meta.url), "utf8"),
+  readFileSync(new URL("../data/ekvivalencia-terkep.v7.json", import.meta.url), "utf8"),
 ) as EkvivalenciaTerkepAdat;
 
 const terkep = EkvivalenciaTerkep.betolt(adat);
@@ -110,5 +110,49 @@ describe("Pontozási szabály 4 — kompozit-kényszer", () => {
       expect(terkep.kompozit(kod)).toBe(true);
     }
     expect(terkep.kompozit("J-011")).toBe(false);
+  });
+});
+
+describe("v7 bővítés — új tételek", () => {
+  it("J-044 ↔ TK-030 EKVIVALENS (84. tétel)", () => {
+    expect(terkep.teljesiti("TK-030", kiadott("J-044"))?.fajta).toBe("ekvivalens");
+    expect(terkep.teljesiti("J-044", kiadott("TK-030"))?.fajta).toBe("ekvivalens");
+  });
+
+  it("J-240 → TK-070 TARTALMAZÓ, fordítva nem (81. tétel)", () => {
+    expect(terkep.teljesiti("TK-070", kiadott("J-240"))?.fajta).toBe("tartalmazo");
+    expect(terkep.teljesiti("J-240", kiadott("TK-070"))).toBeUndefined();
+  });
+
+  it("J-313 + J-204 együtt fedi a TK-083-at, külön-külön nem (75. tétel)", () => {
+    expect(terkep.teljesiti("TK-083", kiadott("J-313", "J-204"))?.fajta).toBe("fedes");
+    expect(terkep.teljesiti("TK-083", kiadott("J-204"))).toBeUndefined();
+  });
+
+  it("a J-302 fedéséhez mind a három elem kell (73. tétel)", () => {
+    expect(terkep.teljesiti("J-302", kiadott("J-206", "J-338", "J-301"))?.fajta).toBe("fedes");
+    expect(terkep.teljesiti("J-302", kiadott("J-206", "J-338"))).toBeUndefined();
+  });
+});
+
+describe("Minta-típushoz kötött fedés (v7 #74, #76, #80, #83)", () => {
+  it("a 76. tétel POZITÍV mintán fedi a J-312-t", () => {
+    expect(terkep.teljesiti("J-312", kiadott("TK-105"), "Pozitiv")?.fajta).toBe("fedes");
+  });
+
+  it("NEGATÍV mintán ugyanez NEM fed — ott a J-312 kiadása kötelező marad", () => {
+    expect(terkep.teljesiti("J-312", kiadott("TK-105"), "Negativ")).toBeUndefined();
+    expect(terkep.teljesiti("J-312", kiadott("TK-105"), "Kontroll")).toBeUndefined();
+  });
+
+  it("minta-típus megadása nélkül a kötött fedés nem alkalmazható", () => {
+    expect(terkep.teljesiti("J-312", kiadott("TK-105"))).toBeUndefined();
+  });
+
+  it("a TK-083 pozitív-oldali alakja egyetlen J-313-mal is fed (80. tétel)", () => {
+    expect(terkep.teljesiti("TK-083", kiadott("J-313"), "Pozitiv")?.fajta).toBe("fedes");
+    // Negatív mintán a #75 küszöbe él: J-313 ÉS J-204 kell.
+    expect(terkep.teljesiti("TK-083", kiadott("J-313"), "Negativ")).toBeUndefined();
+    expect(terkep.teljesiti("TK-083", kiadott("J-313", "J-204"), "Negativ")?.fajta).toBe("fedes");
   });
 });

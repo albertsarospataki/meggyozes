@@ -144,13 +144,17 @@ export function elvarasokatElemez(szoveg: string | undefined): {
     const vagySzoval = /\bVAGY\b/u.test(sor);
     const veglegesek = vagySzoval && csoportok.length > 1 ? [csoportok.flat()] : csoportok;
 
-    const bizonytalan = kontextusKodok.length > 0 || perJelesVolt;
+    // A 11. pontozási szabály (v7) hivatalosan kimondja: a zárójeles gold-tag NEM
+    // feltétele a tétel teljesítésének. Ezért a zárójeles kód már nem bizonytalanság,
+    // csak kontextus — bizonytalan kizárólag a per-jeles kódfutam marad, amelynek
+    // olvasata (alternatíva vagy két tétel) továbbra sincs szabályban rögzítve.
+    const bizonytalan = perJelesVolt;
     for (const kodok of veglegesek) {
-      tetelek.push(
-        bizonytalan
-          ? { kodok, nyers: sor, bizonytalan: true, kontextusKodok }
-          : { kodok, nyers: sor },
-      );
+      // A kontextus-kódokat akkor is megtartjuk, ha a sor nem bizonytalan: a
+      // riportban meg kell tudni mutatni, mihez tartozik a tétel.
+      const alap = { kodok, nyers: sor };
+      const kontextussal = kontextusKodok.length > 0 ? { ...alap, kontextusKodok } : alap;
+      tetelek.push(bizonytalan ? { ...kontextussal, bizonytalan: true } : kontextussal);
     }
   }
   return { tetelek, kodNelkuliSorok };
@@ -177,10 +181,7 @@ export function goldLint(elvarasok: readonly TesztElvaras[]): GoldLintLelet[] {
           azonosito: e.azonosito,
           mezo: "kotelezo",
           sor: t.nyers,
-          ok:
-            (t.kontextusKodok?.length ?? 0) > 0
-              ? `zárójeles kód (${t.kontextusKodok?.join(", ")}) — kötelező tétel vagy kontextus?`
-              : "per-jeles kódfutam — VAGY-alternatíva vagy két külön tétel?",
+          ok: "per-jeles kódfutam — VAGY-alternatíva vagy két külön tétel?",
         });
       }
     }
@@ -257,7 +258,7 @@ export function tesztetPontoz(
   const ertekel = (tetelek: readonly ElvarasTetel[]): TetelErtekeles[] =>
     tetelek.map((tetel) => {
       for (const kod of tetel.kodok) {
-        const indok = terkep.teljesiti(kod, mind);
+        const indok = terkep.teljesiti(kod, mind, elvaras.mintaTipus);
         if (indok) return { tetel, teljesult: true, indok };
       }
       return { tetel, teljesult: false, indok: undefined };

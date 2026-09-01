@@ -13,7 +13,7 @@ import {
 
 const terkep = EkvivalenciaTerkep.betolt(
   JSON.parse(
-    readFileSync(new URL("../data/ekvivalencia-terkep.v4.json", import.meta.url), "utf8"),
+    readFileSync(new URL("../data/ekvivalencia-terkep.v7.json", import.meta.url), "utf8"),
   ) as EkvivalenciaTerkepAdat,
 );
 
@@ -254,7 +254,9 @@ describe("elvarasokatElemez — valódi gold-sorokon (aranystandard, 2026-08-29)
     expect(tetelek).toHaveLength(1);
     expect(tetelek[0]?.kodok).toEqual(["J-003"]);
     expect(tetelek[0]?.kontextusKodok).toEqual(["TK-010"]);
-    expect(tetelek[0]?.bizonytalan).toBe(true);
+    // A v7 11. pontozási szabálya kimondja: a zárójeles gold-tag NEM feltétele a
+    // tétel teljesítésének. Kontextus marad, de már nem bizonytalanság.
+    expect(tetelek[0]?.bizonytalan).toBeUndefined();
   });
 
   it("a per-jeles kódfutam VAGY-alternatíva, nem konjunkció", () => {
@@ -308,10 +310,11 @@ describe("goldLint — mit kell strukturálni a goldban a CI előtt", () => {
       elvaras({ kotelezo: elemzes.tetelek, kodNelkuliSorok: elemzes.kodNelkuliSorok }),
     ]);
 
-    expect(leletek).toHaveLength(3);
+    // A zárójeles sor a 11. szabály óta nem szorul feltételezésre — csak a
+    // per-jeles futam és a kód nélküli sor marad a listán.
+    expect(leletek).toHaveLength(2);
     expect(leletek.map((l) => l.ok)).toEqual([
       expect.stringContaining("per-jeles"),
-      expect.stringContaining("zárójeles kód (TK-010)"),
       expect.stringContaining("gépileg nem pontozható"),
     ]);
     // A tiszta sor (3.) nem kerül a listára.
