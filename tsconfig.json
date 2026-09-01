@@ -8,6 +8,7 @@
     { "path": "./packages/szervezet" },
     { "path": "./packages/projekt" },
     { "path": "./packages/tanacs" },
-    { "path": "./packages/kerdezz" }
+    { "path": "./packages/kerdezz" },
+    { "path": "./packages/tanulas" }
   ]
 }
