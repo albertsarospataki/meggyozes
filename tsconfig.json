@@ -10,6 +10,7 @@
     { "path": "./packages/tanacs" },
     { "path": "./packages/kerdezz" },
     { "path": "./packages/tanulas" },
-    { "path": "./packages/folyamat" }
+    { "path": "./packages/folyamat" },
+    { "path": "./packages/tarolas" }
   ]
 }

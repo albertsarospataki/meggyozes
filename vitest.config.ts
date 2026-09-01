@@ -14,6 +14,10 @@ export default defineConfig({
       "@meggyozes/tanacs": new URL("./packages/tanacs/src/index.ts", import.meta.url).pathname,
       "@meggyozes/kerdezz": new URL("./packages/kerdezz/src/index.ts", import.meta.url).pathname,
       "@meggyozes/tanulas": new URL("./packages/tanulas/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/tarolas": new URL("./packages/tarolas/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/motor": new URL("./packages/motor/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/bemenet": new URL("./packages/bemenet/src/index.ts", import.meta.url).pathname,
+      "@meggyozes/folyamat": new URL("./packages/folyamat/src/index.ts", import.meta.url).pathname,
     },
   },
 });
