@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "description": "Meggyőzés-technikai audit szoftver — tudásbázis-szinkron és kalibrációs CI",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "tsc --build",
     "typecheck": "tsc --build --force",
@@ -12,13 +14,15 @@
     "test:watch": "vitest",
     "kb:sync": "tsx packages/kb-sync/src/cli.ts",
     "kalibracio": "tsx packages/kalibracio/src/cli.ts",
-    "ellenoriz": "pnpm typecheck && pnpm test"
+    "ellenoriz": "pnpm typecheck && pnpm test",
+    "demo:build": "node demo/build.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "esbuild": "^0.28.2"
   },
   "dependencies": {
     "zod": "^3.24.1"

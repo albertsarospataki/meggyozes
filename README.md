@@ -72,6 +72,18 @@ A C és E réteg készült el elsőként, szándékosan:
 - **`packages/folyamat`** — a rétegek összekötése: indítás négy kapuval (jogosultság →
   csomagkorlát → kredit → terhelés) és lezárás (HUM-kapu, brand-őr, visszaírás).
 
+## A szabályok működés közben
+
+A döntési réteg egy oldalon kipróbálható: a panelek a `packages/` moduljait futtatják a
+böngészőben, változtatás nélkül.
+
+```bash
+pnpm demo:build     # demo/dist/meggyozes-demo.html — egyetlen, önálló fájl
+```
+
+A köteg beágyazva utazik (nulla hálózati függés), a forrás a `demo/` mappában van.
+Publikált változat: <https://claude.ai/code/artifact/99313b00-657f-4a5c-8c78-daa59aac5217>
+
 ## Indulás
 
 ```bash

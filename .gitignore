@@ -13,3 +13,6 @@ pillanatkepek/
 futasok/
 coverage/
 .DS_Store
+
+# A bemutató-oldal generált kötege — a forrás (demo/index.html + demo.ts) verziózva van
+demo/dist/
