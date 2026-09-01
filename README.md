@@ -7,13 +7,20 @@ mitől győzne meg nagyobb valószínűséggel.
 
 **Mérvadó dokumentumok (Notion):** 📜 Product Constitution v1.0 · 🧭 Current Execution
 Baseline v2.0 · 🛠️ Szoftver-réteg fejlesztői specifikáció v1.0 · 🔁 Kód-ekvivalencia
-térkép v4 · 🏅 Aranystandard v1.0 (150 teszt).
+térkép v4 · 🏅 Aranystandard v1.0 (150 teszt) · 📄 Szoftver-brief v2.0 (három üzemmód,
+brand-memória, kredit-alapú előfizetés).
+
+A v2.0 brief leképezése kódra — és ami szándékosan kimaradt — a
+[docs/brief-v2-terkep.md](docs/brief-v2-terkep.md) fájlban.
 
 ## Hol tart a kód
 
-Ez a repó a fejlesztői specifikáció **C** (tudásbázis-szinkron) és **E**
-(kalibrációs/QA-modul) komponensét tartalmazza. Ez a két réteg készült el először,
-szándékosan:
+Ez a repó a **döntési és szerződéses réteget** tartalmazza: a tudásbázis-szinkront, a
+kalibrációs CI-t, és a v2.0 brief termék-rétegét (brand-memória, szervezet és kredit,
+projekt, a három üzemmód szabályai, tanulási hurok). Közös bennük, hogy tiszta logika:
+LLM, adatbázis, Stripe és böngésző nélkül futtatható, mérhető és tesztelhető.
+
+A C és E réteg készült el elsőként, szándékosan:
 
 - a tudásbázis Notionben él, ami futásidejű lekérdezésre alkalmatlan (lassú,
   rate-limitelt, és a 100 soros lapkorlát pontosan itt okozta a történelmi
@@ -25,12 +32,18 @@ szándékosan:
 
 | Komponens | Állapot |
 |---|---|
-| A — bemeneti réteg (URL / képernyőkép / szöveg) | nincs |
+| A — bemeneti réteg (URL / képernyőkép / szöveg / videó) | nincs |
 | B — elemző mag (LLM + determinisztikus ellenőrző) | nincs |
 | **C — tudásbázis-szinkron** | **kész** |
-| D — riport-generátor | nincs |
-| **E — kalibrációs / QA-modul** | **kész (pontozó + kapuk)** |
+| D — riport-generátor | nincs (a riport szerkezete típusban áll) |
+| **E — kalibrációs / QA-modul** | **kész (pontozó + kapuk három módra)** |
 | F — ügyfél-felület | nincs |
+| **G — szervezet, szerep, előfizetés, kredit** | **kész (üzleti logika; Stripe nincs)** |
+| **H — tenant-szigetelés** | **kész (döntési réteg; RLS nincs)** |
+| **I — brand-memória** | **kész** |
+| J — visszakereső (RAG-index) | szűrés és őrök készen, index nincs |
+| **K — tanulási hurok** | **kész** |
+| L — média-feldolgozó (ASR, kulcskép, OCR) | nincs |
 
 ## Csomagok
 
@@ -42,7 +55,22 @@ szándékosan:
   reláció, MVP-lefedettség), előhívási index a P7 lépéshez.
 - **`packages/kalibracio`** — a Kód-ekvivalencia térkép futásidejű alakja, az
   aranystandard-pontozó a 8 pontozási szabállyal, a release-kapuk és a
-  regresszió-riasztás.
+  regresszió-riasztás; a Tanács, a Kérdezz és a brand-őr kapui, tanuló/held-out
+  kettős számmal.
+- **`packages/brand`** — az I komponens: brand-profil séma, készültség 0–5, és a
+  brand-őr (DET 8. szabálycsoport) a rendszer saját kimenetére.
+- **`packages/szervezet`** — csomagkorlátok, kredit-árlista, tételes kredit-főkönyv,
+  szerep-mátrix és adatszigetelés.
+- **`packages/projekt`** — az adatmodell, a projekt-idővonal, a köteg és az
+  előtte/utána összehasonlítás a megvalósítási aránnyal.
+- **`packages/tanacs`** — a hét konstrukció-típus, a verziózott Intent, az 1C belépő
+  kérdéscsomagok, a §4/b kemény KO-kapu és a brief-generátor.
+- **`packages/kerdezz`** — kérdés-osztályozás, visszakeresés-szűrés karantén-tilalommal
+  és relevancia-küszöbbel, a hat blokkos válasz-kártya négy őrrel.
+- **`packages/tanulas`** — visszajelzés → anonimizált tanulási jelölt, held-out
+  fegyelem, heti kurátori csomag.
+- **`packages/folyamat`** — a rétegek összekötése: indítás négy kapuval (jogosultság →
+  csomagkorlát → kredit → terhelés) és lezárás (HUM-kapu, brand-őr, visszaírás).
 
 ## Indulás
 
@@ -85,3 +113,31 @@ aranystandardon. A kapuk (Product Constitution §6, kalibrált mércék 2026-08-
 | Kötelező kód-recall | ≥ 92% | 96,7% |
 | Kontroll-álpozitív | = 0 | 0 |
 | Tiltott találat | ≤ 1% | 0,7% |
+
+A v2.0 két új üzemmódot és egy új őrt hoz, mindegyiket **saját bázissal** — közös
+átlag helyett, mert egy összevont szám elrejtené, ha a Kérdezz mód forrás nélküli
+állítást enged ki, miközben az audit szépen teljesít. Minden kapu **két számot** mutat,
+tanuló és held-out bontásban, és csak akkor élesíthető, ha mindkettő zöld.
+
+| Kapu | Mérce | Bázis |
+|---|---|---|
+| Tanács | PASS ≥ 85% · fordított kontrollon lebeszélés 100% · saját javaslat KO-sértés = 0 | 30 terv-gold |
+| Kérdezz | forrás nélküli állítás = 0 · hiány-kimondás a kontrollokon 100% · küszöb alatti forrásból épült válasz = 0 | 40 Q&A-gold (30/10) |
+| Brand-őr | tiltott kifejezés = 0 · nem igazolt szám = 0 | 20 brand-teszt |
+
+## Három elv, ami a v2.0 rétegben ismétlődik
+
+**A rendszer saját kimenete szigorúbb mérce alá esik, mint az ügyfélé.** Az auditban a
+nulla álpozitív elv miatt inkább nem állítunk valamit; a saját javaslatnál fordítva —
+inkább visszaküldjük, mint hogy tiltott kifejezés vagy kitalált szám menjen ki az
+ügyfél nevében. Egy audit, ami elnéz valamit, egy elmaradt javítást ér; egy tanács,
+ami sötét mintát javasol, létrehozza a kárt.
+
+**A hiány kimondása válasz, nem kudarc.** Ha a tudásbázisban nincs mért eredmény, a
+Kérdezz mód ezt mondja ki, és megmondja, mit lehetne megmérni hozzá. A magabiztos
+válasz küszöb alatti forrásokból a legveszélyesebb kimenet.
+
+**A tanulás jelöltekkel megy, nem önmódosítással.** A Notion a szerkesztőségi igazság,
+a runtime soha nem ír vissza. A hurok anonimizált jelölteket termel, ember dönt, és
+held-out készletből soha nem lesz szabály — különben a mérce a saját tanulóanyagává
+válna.

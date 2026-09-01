@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "paths": {
+      "@meggyozes/core": ["../core/src/index.ts"],
+      "@meggyozes/brand": ["../brand/src/index.ts"],
+      "@meggyozes/projekt": ["../projekt/src/index.ts"],
+      "@meggyozes/szervezet": ["../szervezet/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../brand" },
+    { "path": "../projekt" },
+    { "path": "../szervezet" }
+  ]
+}

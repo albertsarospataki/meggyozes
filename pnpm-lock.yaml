@@ -33,6 +33,21 @@ importers:
 
   packages/core: {}
 
+  packages/folyamat:
+    dependencies:
+      '@meggyozes/brand':
+        specifier: workspace:*
+        version: link:../brand
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
+      '@meggyozes/projekt':
+        specifier: workspace:*
+        version: link:../projekt
+      '@meggyozes/szervezet':
+        specifier: workspace:*
+        version: link:../szervezet
+
   packages/kalibracio:
     dependencies:
       '@meggyozes/core':
