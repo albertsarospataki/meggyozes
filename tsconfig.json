@@ -5,6 +5,7 @@
     { "path": "./packages/kb-sync" },
     { "path": "./packages/kalibracio" },
     { "path": "./packages/brand" },
-    { "path": "./packages/szervezet" }
+    { "path": "./packages/szervezet" },
+    { "path": "./packages/projekt" }
   ]
 }

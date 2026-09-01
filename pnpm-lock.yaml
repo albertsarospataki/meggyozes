@@ -45,6 +45,12 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/projekt:
+    dependencies:
+      '@meggyozes/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/szervezet: {}
 
 packages:
