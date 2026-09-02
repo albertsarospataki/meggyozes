@@ -6,8 +6,12 @@
  * Bizonyíték-szint. A Constitution 5. alapelve: kétidőpontos/kattintás-függő jelet
  * pillanatképből NEM állítunk tényként. A gyanú és a N.E. a riportban külön vizuális
  * jelölést kap, és SOHA nem számít bizonyított problémának (DET-réteg 6. szabálycsoport).
+ *
+ * A „tervezett" a Tanács mód fokozata: a jel nem megfigyelésből, hanem a tervezett
+ * mechanikából következik (P2′, KE-híd). Ugyanaz a J-kód, más szint — és ugyanúgy
+ * nem bizonyított probléma: egy tervről nem állítható, hogy már árt.
  */
-export type BizonyitekSzint = "teny" | "gyanu" | "nem-eldontheto";
+export type BizonyitekSzint = "teny" | "gyanu" | "nem-eldontheto" | "tervezett";
 
 /**
  * A detekció minősítése. A „pozitív" pólus külön érték, mert a kalibráció szerint

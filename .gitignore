@@ -13,3 +13,14 @@ pillanatkepek/
 futasok/
 coverage/
 .DS_Store
+
+# A bemutató-oldal generált kötege — a forrás (demo/index.html + demo.ts) verziózva van
+demo/dist/
+
+# Az alkalmazás helyi adatbázisa és fordítási kimenete
+.adat/
+apps/web/.next/
+*.png
+
+# Az indító naplója
+convictly-naplo.txt

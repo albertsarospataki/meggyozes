@@ -3,6 +3,16 @@
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/kb-sync" },
-    { "path": "./packages/kalibracio" }
+    { "path": "./packages/kalibracio" },
+    { "path": "./packages/brand" },
+    { "path": "./packages/szervezet" },
+    { "path": "./packages/projekt" },
+    { "path": "./packages/tanacs" },
+    { "path": "./packages/kerdezz" },
+    { "path": "./packages/tanulas" },
+    { "path": "./packages/folyamat" },
+    { "path": "./packages/tarolas" },
+    { "path": "./packages/bemenet" },
+    { "path": "./packages/motor" }
   ]
 }

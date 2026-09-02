@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia.js";
+import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia";
 
 const adat = JSON.parse(
   readFileSync(new URL("../data/ekvivalencia-terkep.v7.json", import.meta.url), "utf8"),

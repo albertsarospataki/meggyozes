@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { TudasbazisPillanatkep } from "@meggyozes/core";
-import type { KonzisztenciaLelet } from "./konzisztencia.js";
+import type { KonzisztenciaLelet } from "./konzisztencia";
 
 /**
  * Verziózott tudásbázis-pillanatkép.

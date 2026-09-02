@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import type { Detekcio, FuttatasEredmeny, MintaTipus } from "@meggyozes/core";
-import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia.js";
+import { EkvivalenciaTerkep, type EkvivalenciaTerkepAdat } from "./ekvivalencia";
 import {
   elvarasokatElemez,
   goldLint,
@@ -9,7 +9,7 @@ import {
   kiadottKodok,
   tesztetPontoz,
   type TesztElvaras,
-} from "./pontozas.js";
+} from "./pontozas";
 
 const terkep = EkvivalenciaTerkep.betolt(
   JSON.parse(

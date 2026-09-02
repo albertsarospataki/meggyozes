@@ -1,0 +1,1000 @@
+<title>Meggyőzés Motorpad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --ground: #f2f4f7;
+    --surface: #ffffff;
+    --surface-2: #e9ecf2;
+    --ink: #14171d;
+    --muted: #59616f;
+    --line: #d7dce5;
+    --accent: #37478f;
+    --accent-soft: #e6e9f7;
+    --pass: #1c7a4e;
+    --pass-soft: #e2f2e9;
+    --block: #ad3628;
+    --block-soft: #f8e6e3;
+    --warn: #8a6110;
+    --warn-soft: #f7eed8;
+
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0: 1rem;
+    --step-1: 1.2rem;
+    --step-2: 1.55rem;
+    --step-3: 2.2rem;
+
+    --radius: 10px;
+    --shadow: 0 1px 2px rgb(20 23 29 / 6%), 0 8px 24px -16px rgb(20 23 29 / 24%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0e1116;
+      --surface: #161a21;
+      --surface-2: #1d232c;
+      --ink: #e5e9f0;
+      --muted: #99a2b1;
+      --line: #2a313c;
+      --accent: #93a3ff;
+      --accent-soft: #1e2540;
+      --pass: #55c48b;
+      --pass-soft: #14301f;
+      --block: #f2887a;
+      --block-soft: #351a17;
+      --warn: #dcaa42;
+      --warn-soft: #33270d;
+      --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 10px 28px -18px rgb(0 0 0 / 80%);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0e1116;
+    --surface: #161a21;
+    --surface-2: #1d232c;
+    --ink: #e5e9f0;
+    --muted: #99a2b1;
+    --line: #2a313c;
+    --accent: #93a3ff;
+    --accent-soft: #1e2540;
+    --pass: #55c48b;
+    --pass-soft: #14301f;
+    --block: #f2887a;
+    --block-soft: #351a17;
+    --warn: #dcaa42;
+    --warn-soft: #33270d;
+    --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 10px 28px -18px rgb(0 0 0 / 80%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 20px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.15; }
+  h1 { font-size: var(--step-3); letter-spacing: -0.02em; }
+  h2 { font-size: var(--step-2); letter-spacing: -0.015em; }
+  h3 { font-size: var(--step-0); font-weight: 500; }
+  p { margin: 0; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .lede { color: var(--muted); max-width: 62ch; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .masthead__title { display: flex; flex-direction: column; gap: 12px; }
+
+  .masthead__note {
+    font-size: var(--step--1);
+    color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .masthead__note strong { color: var(--ink); font-family: var(--display); font-weight: 500; }
+
+  /* ---------- panels ---------- */
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .panel__head {
+    padding: 22px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .panel__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+
+  .controls, .verdict { padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .verdict { background: var(--surface-2); border-left: 1px solid var(--line); }
+
+  @media (max-width: 780px) {
+    .masthead { grid-template-columns: 1fr; }
+    .panel__body { grid-template-columns: 1fr; }
+    .verdict { border-left: 0; border-top: 1px solid var(--line); }
+  }
+
+  /* ---------- form controls ---------- */
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  label, .field__label {
+    font-family: var(--display);
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+
+  .hint { font-size: var(--step--1); color: var(--muted); }
+
+  textarea, input[type="text"], input[type="number"], select {
+    font-family: var(--body);
+    font-size: var(--step--1);
+    color: var(--ink);
+    background: var(--ground);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 11px;
+    width: 100%;
+  }
+
+  textarea { font-family: var(--mono); line-height: 1.55; resize: vertical; min-height: 96px; }
+  select { font-family: var(--display); }
+
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+  :is(textarea, input, select, button):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+  .checks { display: flex; flex-direction: column; gap: 8px; }
+
+  .check {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+
+  .check input { margin: 3px 0 0; accent-color: var(--accent); }
+
+  /* ---------- verdict objects ---------- */
+
+  .state {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid var(--muted);
+    background: var(--surface);
+    font-size: var(--step--1);
+  }
+
+  .state--pass { border-left-color: var(--pass); background: var(--pass-soft); }
+  .state--block { border-left-color: var(--block); background: var(--block-soft); }
+  .state--warn { border-left-color: var(--warn); background: var(--warn-soft); }
+
+  .state__tag {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .state--pass .state__tag { color: var(--pass); }
+  .state--block .state__tag { color: var(--block); }
+  .state--warn .state__tag { color: var(--warn); }
+
+  .findings { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+
+  .finding {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 12px;
+    padding: 11px 13px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: var(--step--1);
+  }
+
+  .finding__badge {
+    grid-row: span 2;
+    align-self: start;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .badge--block { color: var(--block); background: var(--block-soft); }
+  .badge--warn { color: var(--warn); background: var(--warn-soft); }
+  .badge--note { color: var(--accent); background: var(--accent-soft); }
+
+  .finding__what { font-family: var(--mono); }
+  .finding__why { color: var(--muted); }
+
+  .quote {
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    line-height: 1.6;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 13px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
+
+  mark {
+    background: var(--warn-soft);
+    color: var(--warn);
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+
+  .ledger { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  .ledger th, .ledger td { text-align: left; padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .ledger th { font-family: var(--display); font-weight: 500; color: var(--muted); font-size: 0.75rem; }
+  .ledger td:last-child, .ledger th:last-child { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .ledger tr:last-child td { border-bottom: 0; font-weight: 600; }
+
+  .gates { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+  .gate {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: var(--step--1);
+  }
+
+  .gate__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pass); }
+  .gate--red .gate__dot { background: var(--block); }
+  .gate__name { font-family: var(--display); font-weight: 500; }
+  .gate__value { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+  .gate__msg { grid-column: 2 / -1; color: var(--muted); font-size: 0.75rem; }
+
+  .pairs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+
+  .pair {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pair__k { font-family: var(--mono); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .pair__v { font-family: var(--display); font-weight: 500; font-size: var(--step-1); font-variant-numeric: tabular-nums; }
+
+  code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2); padding: 1px 4px; border-radius: 4px; }
+
+  /* ---------- closing ---------- */
+
+  .closing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  .missing {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .missing h3 { font-family: var(--display); font-weight: 700; font-size: var(--step-0); }
+  .missing p { font-size: var(--step--1); color: var(--muted); }
+
+  footer { color: var(--muted); font-size: var(--step--1); border-top: 1px solid var(--line); padding-top: 20px; }
+</style>
+
+<div class="shell">
+
+  <header class="masthead">
+    <div class="masthead__title">
+      <p class="eyebrow">Szoftver-brief v2.0 · döntési réteg</p>
+      <h1>Meggyőzés Motorpad</h1>
+      <p class="lede">
+        A meggyőzés-szoftver szabályai működés közben. Minden panel a repó valódi
+        moduljait hívja — ugyanazt a kódot, amit a 269 teszt mér. Írd át a mezőket,
+        a verdikt azonnal újraszámol.
+      </p>
+    </div>
+    <div class="masthead__note">
+      <p><strong>Ez nem a kész termék.</strong></p>
+      <p>
+        A felület, az LLM-hívás, az oldalbetöltés és az adatbázis még nincs meg. Ami itt fut,
+        az a döntési és szerződéses réteg: mit adhat ki a rendszer, mikor kér kreditet,
+        mit lát egy szerep, mikor kell ember. A hiányzó komponensek az oldal alján.
+      </p>
+    </div>
+  </header>
+
+  <!-- 1 ─ brand-őr -->
+  <section class="panel">
+    <div class="panel__head">
+      <p class="eyebrow">I komponens · DET 8. szabálycsoport</p>
+      <h2>Brand-őr a saját kimenetünkön</h2>
+      <p class="lede">
+        Ez a szöveg az ügyfél nevében megy ki. Tiltott kifejezés visszaküldi a javaslatot,
+        igazolatlan szám helyőrzőt kap, a felsőfok proof pointot kíván.
+      </p>
+    </div>
+    <div class="panel__body">
+      <div class="controls">
+        <div class="field">
+          <label for="bo-szoveg">A rendszer javaslata</label>
+          <textarea id="bo-szoveg" rows="5">Nálunk a csomagok 92%-a egy napon belül megérkezik, és 40%-kal gyorsabbak vagyunk. A legjobb ajánlat a piacon, olcsó árakkal.</textarea>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="bo-tilto">Tiltólista (vesszővel)</label>
+            <input id="bo-tilto" type="text" value="olcsó, utolsó esély">
+          </div>
+          <div class="field">
+            <label for="bo-proof">Proof point (igazolt állítás)</label>
+            <input id="bo-proof" type="text" value="A vásárlók 92%-a 24 órán belül megkapja a csomagot.">
+          </div>
+        </div>
+        <p class="hint">
+          Vedd ki az „olcsó” szót a szövegből: a visszaküldés megszűnik, a helyőrzők maradnak.
+        </p>
+      </div>
+      <div class="verdict">
+        <div id="bo-allapot" class="state"></div>
+        <ul id="bo-kifogasok" class="findings"></ul>
+        <div class="field">
+          <p class="field__label">Helyőrzőzött szöveg</p>
+          <div id="bo-helyorzos" class="quote"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 ─ indítás -->
+  <section class="panel">
+    <div class="panel__head">
+      <p class="eyebrow">W2 · a négy kapu sorrendje</p>
+      <h2>Indítás: jogosultság → csomagkorlát → kredit → terhelés</h2>
+      <p class="lede">
+        A kredit mindig utolsó. Jogosultsági vagy korlát-hiba nem kerülhet az ügyfél
+        kreditjébe, a „marad 274” mondatot pedig csak átengedett kérésre mondhatjuk ki.
+      </p>
+    </div>
+    <div class="panel__body">
+      <div class="controls">
+        <div class="row">
+          <div class="field">
+            <label for="in-szerep">Szerep</label>
+            <select id="in-szerep">
+              <option value="elemzo">Elemző (brand-a)</option>
+              <option value="nezo">Néző</option>
+              <option value="admin">Admin (minden brand)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-brand">Cél brand</label>
+            <select id="in-brand">
+              <option value="brand-a">brand-a</option>
+              <option value="brand-b">brand-b</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="in-csomag">Csomag</label>
+            <select id="in-csomag">
+              <option value="starter">Starter</option>
+              <option value="pro">Pro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-muvelet">Művelet</label>
+            <select id="in-muvelet">
+              <option value="audit_url">Audit — URL</option>
+              <option value="audit_kep">Audit — kép / PDF (4 oldal)</option>
+              <option value="audit_video">Audit — videó (12 perc)</option>
+              <option value="intent_validalas">Tanács — validáció</option>
+              <option value="kerdes_mely">Kérdezz — mély válasz</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="in-kredit">Havi kredit-egyenleg: <span id="in-kredit-ertek" class="finding__what">300</span></label>
+          <input id="in-kredit" type="range" min="0" max="300" step="5" value="300">
+        </div>
+        <p class="hint">A Starter videó-korlátja 5 perc — a 12 perces videó a kredit előtt akad el.</p>
+      </div>
+      <div class="verdict">
+        <div id="in-allapot" class="state"></div>
+        <table class="ledger">
+          <thead><tr><th>Ár tételesen</th><th>Kredit</th></tr></thead>
+          <tbody id="in-arlista"></tbody>
+        </table>
+        <div class="pairs">
+          <div class="pair"><span class="pair__k">Egyenleg</span><span id="in-egyenleg" class="pair__v"></span></div>
+          <div class="pair"><span class="pair__k">Levonás</span><span id="in-levonas" class="pair__v"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ─ tanács -->
+  <section class="panel">
+    <div class="panel__head">
+      <p class="eyebrow">W3 · hét konstrukció-típus</p>
+      <h2>Tanács: felismer, vagy kérdez — harmadik ág nincs</h2>
+      <p class="lede">
+        A belépő mondatból a rendszer konstrukció-típust ismer fel. Ha két típus egyformán
+        erős, nem választ: a homályos előhívás rosszabb, mint a rákérdezés.
+      </p>
+    </div>
+    <div class="panel__body">
+      <div class="controls">
+        <div class="field">
+          <label for="ta-mondat">Belépő mondat</label>
+          <input id="ta-mondat" type="text" value="jövő héten 20% kedvezmény a webshopon">
+        </div>
+        <div class="field">
+          <p class="field__label">Amit már tudunk a tervről</p>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="ta-cel"> Cél megvan (bevétel)</label>
+            <label class="check"><input type="checkbox" id="ta-kozonseg"> Közönség megvan (visszatérő vevők)</label>
+            <label class="check"><input type="checkbox" id="ta-mechanika"> Mechanika megvan (20% kedvezmény)</label>
+            <label class="check"><input type="checkbox" id="ta-igeret"> Ígéret megvan</label>
+          </div>
+        </div>
+        <p class="hint">Próbáld ki: „hűségprogram és árazás egyszerre” — ott nem dönt, hanem kérdez.</p>
+      </div>
+      <div class="verdict">
+        <div id="ta-allapot" class="state"></div>
+        <div class="pairs">
+          <div class="pair"><span class="pair__k">Intent kitöltöttség</span><span id="ta-kitoltottseg" class="pair__v"></span></div>
+          <div class="pair"><span class="pair__k">Validálható</span><span id="ta-validalhato" class="pair__v"></span></div>
+        </div>
+        <div class="field">
+          <p class="field__label">A következő kérdés</p>
+          <div id="ta-kerdes" class="quote"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 ─ kérdezz -->
+  <section class="panel">
+    <div class="panel__head">
+      <p class="eyebrow">W4 · négy őr a válasz-kártyán</p>
+      <h2>Kérdezz: a hiány kimondása is válasz</h2>
+      <p class="lede">
+        A válasz csak a visszakeresés kimenetéből épülhet. Karanténos forrás akkor sem
+        idézhető, ha releváns — és ha nem marad használható tétel, a helyes válasz a
+        kimondott hiány, nem egy gyengébb válasz.
+      </p>
+    </div>
+    <div class="panel__body">
+      <div class="controls">
+        <div class="field">
+          <p class="field__label">Mi jött vissza a keresőből</p>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="ke-jo" checked> <span><code>KUT-118</code> — releváns kutatás, 17%-os mérés</span></label>
+            <label class="check"><input type="checkbox" id="ke-karanten"> <span><code>KUT-999</code> — karanténos, de nagyon releváns</span></label>
+            <label class="check"><input type="checkbox" id="ke-gyenge"> <span><code>KUT-204</code> — küszöb alatti relevancia (0,31)</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <p class="field__label">Mit írna a válaszba a modell</p>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="ke-forras"> Egy állítást forrás nélkül</label>
+            <label class="check"><input type="checkbox" id="ke-szam"> Egy számot, ami nincs a forrásban („30%”)</label>
+            <label class="check"><input type="checkbox" id="ke-karantenidezet"> Idézi a karanténos forrást</label>
+          </div>
+        </div>
+        <p class="hint">Kapcsold ki mind a három forrást: a kártya átvált a hiány-ágra.</p>
+      </div>
+      <div class="verdict">
+        <div id="ke-allapot" class="state"></div>
+        <ul id="ke-kifogasok" class="findings"></ul>
+        <div class="pairs">
+          <div class="pair"><span class="pair__k">Használható forrás</span><span id="ke-hasznalhato" class="pair__v"></span></div>
+          <div class="pair"><span class="pair__k">Kizárva</span><span id="ke-kizart" class="pair__v"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ─ kapuk -->
+  <section class="panel">
+    <div class="panel__head">
+      <p class="eyebrow">9. fejezet · release-kapuk</p>
+      <h2>Kapuk: minden mérce két számmal</h2>
+      <p class="lede">
+        A Tanács és a Kérdezz mód saját bázison mérve. A kapu csak akkor zöld, ha a tanuló
+        ÉS a held-out készlet is átmegy — egy összevont szám elfedné a held-out romlását.
+      </p>
+    </div>
+    <div class="panel__body">
+      <div class="controls">
+        <div class="field">
+          <label for="ka-pass">Terv PASS-arány (tanuló): <span id="ka-pass-ertek" class="finding__what">90%</span></label>
+          <input id="ka-pass" type="range" min="60" max="100" step="1" value="90">
+        </div>
+        <div class="field">
+          <label for="ka-ko">KO-sávos saját javaslat a kimenetben: <span id="ka-ko-ertek" class="finding__what">0</span></label>
+          <input id="ka-ko" type="range" min="0" max="3" step="1" value="0">
+        </div>
+        <div class="field">
+          <label for="ka-hiany">Helyes hiány-kimondás a 8 kontrollból (held-out): <span id="ka-hiany-ertek" class="finding__what">8</span></label>
+          <input id="ka-hiany" type="range" min="0" max="8" step="1" value="8">
+        </div>
+        <p class="hint">Told le a hiány-kimondást 7-re: a tanuló készlet zöld marad, a kapu mégis blokkol.</p>
+      </div>
+      <div class="verdict">
+        <div id="ka-allapot" class="state"></div>
+        <p class="eyebrow">Tanács-kapu · tanuló</p>
+        <ul id="ka-terv" class="gates"></ul>
+        <p class="eyebrow">Kérdezz-kapu · held-out</p>
+        <ul id="ka-qa" class="gates"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow" style="margin-bottom:12px">Ami még nincs meg — a brief 11. fejezetének mérföldkövei</p>
+    <div class="closing">
+      <div class="missing">
+        <h3>A · bemenet</h3>
+        <p>URL-betöltés, képernyőkép, DOM. Playwright kell hozzá, külön futtatókörnyezetben.</p>
+      </div>
+      <div class="missing">
+        <h3>B · elemző mag</h3>
+        <p>Az LLM-hívás és a P1–P11 lépések. A DET-őrök és a pontozó viszont már állnak.</p>
+      </div>
+      <div class="missing">
+        <h3>D + F · riport és felület</h3>
+        <p>A riport szerkezete típusban van, a megjelenítés és a menürendszer nincs.</p>
+      </div>
+      <div class="missing">
+        <h3>J + L · index és média</h3>
+        <p>Embedding-index és videó-feldolgozás (ASR, kulcskép, OCR) — M4 mérföldkő.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    A panelek a repó <code>packages/</code> moduljait futtatják, változtatás nélkül, a böngészőben.
+    Ami itt zöld, az a CI-ben is zöld — és fordítva.
+  </footer>
+
+</div>
+
+<!--KOTEG-->
+
+<script>
+(() => {
+  const M = window.Meggyozes;
+  const $ = (id) => document.getElementById(id);
+  const MIKOR = new Date("2026-09-03T09:00:00Z");
+  const MIKOR_ISO = "2026-09-03T09:00:00Z";
+
+  const allapot = (elem, allapotNev, cimke, uzenet) => {
+    elem.className = "state state--" + allapotNev;
+    elem.innerHTML = "";
+    const tag = document.createElement("span");
+    tag.className = "state__tag";
+    tag.textContent = cimke;
+    const szoveg = document.createElement("span");
+    szoveg.textContent = uzenet;
+    elem.append(tag, szoveg);
+  };
+
+  const finding = (badgeOsztaly, badge, mit, miert) => {
+    const li = document.createElement("li");
+    li.className = "finding";
+    const b = document.createElement("span");
+    b.className = "finding__badge " + badgeOsztaly;
+    b.textContent = badge;
+    const w = document.createElement("span");
+    w.className = "finding__what";
+    w.textContent = mit;
+    const y = document.createElement("span");
+    y.className = "finding__why";
+    y.textContent = miert;
+    li.append(b, w, y);
+    return li;
+  };
+
+  /* ---------- 1. brand-őr ---------- */
+
+  const boSzint = { visszakuldes: ["badge--block", "visszaküldés"], helyorzo: ["badge--warn", "helyőrző"], jeloles: ["badge--note", "jelölés"] };
+
+  function brandOrPanel() {
+    const alap = M.brand.uresProfil("brand-a", "szerv-1", "Példa Kft.");
+    const tiltottak = $("bo-tilto").value.split(",").map((s) => s.trim()).filter(Boolean);
+    const proof = $("bo-proof").value.trim();
+    const profil = {
+      ...alap,
+      hangnem: { ...alap.hangnem, megszolitas: "tegezes", tiltottKifejezesek: tiltottak },
+      bizonyitekTar: proof === "" ? [] : [{
+        azonosito: "PP-1", allitas: proof, forras: "belső mérés",
+        ervenyesseg: undefined, igazolta: "Kiss Anna", szamertek: undefined,
+      }],
+    };
+
+    const e = M.brand.brandOr({ szoveg: $("bo-szoveg").value, profil, mikor: MIKOR });
+
+    allapot(
+      $("bo-allapot"),
+      e.kiadhato ? (e.kifogasok.length === 0 ? "pass" : "warn") : "block",
+      e.kiadhato ? (e.kifogasok.length === 0 ? "kiadható" : "szerkesztendő") : "visszaküldve",
+      e.kiadhato
+        ? (e.kifogasok.length === 0
+            ? "A javaslat kimehet: nincs kifogás."
+            : e.kifogasok.length + " kifogás — a szöveg helyőrzőkkel kiadható.")
+        : "A javaslat nem adható ki; a P10 újrafuttatandó.",
+    );
+
+    const lista = $("bo-kifogasok");
+    lista.innerHTML = "";
+    for (const k of e.kifogasok) {
+      const [osztaly, cimke] = boSzint[k.szint];
+      lista.append(finding(osztaly, cimke, k.talalat, k.indoklas + " " + k.teendo));
+    }
+
+    const doboz = $("bo-helyorzos");
+    doboz.innerHTML = "";
+    const darabok = e.helyorzosSzoveg.split("[saját mért adat]");
+    darabok.forEach((d, i) => {
+      doboz.append(document.createTextNode(d));
+      if (i < darabok.length - 1) {
+        const mark = document.createElement("mark");
+        mark.textContent = "[saját mért adat]";
+        doboz.append(mark);
+      }
+    });
+  }
+
+  /* ---------- 2. indítás ---------- */
+
+  const MUVELETEK = {
+    audit_url: { muvelet: { tipus: "audit_url" }, ajto: { ajto: "url" } },
+    audit_kep: { muvelet: { tipus: "audit_kep", oldalak: 4 }, ajto: { ajto: "kep" } },
+    audit_video: { muvelet: { tipus: "audit_video", percek: 12 }, ajto: { ajto: "video", videoPerc: 12 } },
+    intent_validalas: { muvelet: { tipus: "intent_validalas" }, ajto: undefined },
+    kerdes_mely: { muvelet: { tipus: "kerdes_mely" }, ajto: undefined },
+  };
+
+  const INDITAS_ALLAPOT = {
+    indulhat: ["pass", "indulhat"],
+    "jogosultsag-hiany": ["block", "jogosultság"],
+    csomagkorlat: ["block", "csomagkorlát"],
+    "kredit-hiany": ["warn", "nincs fedezet"],
+  };
+
+  function inditasPanel() {
+    const szerep = $("in-szerep").value;
+    const kredit = Number($("in-kredit").value);
+    $("in-kredit-ertek").textContent = String(kredit);
+
+    const tag = {
+      felhasznaloAzonosito: "u-1",
+      szervezetAzonosito: "szerv-1",
+      szerep,
+      brandHozzaferes: szerep === "admin" ? "mind" : ["brand-a"],
+    };
+
+    const fokonyv = M.szervezet.fokonyvet(
+      [M.szervezet.haviJovairas({
+        szervezetAzonosito: "szerv-1",
+        haviKredit: kredit,
+        ciklusKezdet: "2026-09-01T00:00:00Z",
+        ciklusVege: "2026-10-01T00:00:00Z",
+      })],
+      MIKOR,
+    );
+
+    const valasztott = MUVELETEK[$("in-muvelet").value];
+    const keres = {
+      tag,
+      cel: { szervezetAzonosito: "szerv-1", brandAzonosito: $("in-brand").value },
+      mod: valasztott.muvelet.tipus.startsWith("audit") ? "audit"
+        : valasztott.muvelet.tipus === "kerdes_mely" ? "kerdezz" : "tanacs",
+      csomag: $("in-csomag").value,
+      muvelet: valasztott.muvelet,
+      fokonyv,
+      futasAzonosito: "f-1",
+      mikor: MIKOR_ISO,
+    };
+    if (valasztott.ajto !== undefined) keres.auditKeres = valasztott.ajto;
+
+    const e = M.folyamat.inditastEllenoriz(keres);
+    const [szint, cimke] = INDITAS_ALLAPOT[e.dontes];
+    allapot($("in-allapot"), szint, cimke, e.uzenet);
+
+    const tbody = $("in-arlista");
+    tbody.innerHTML = "";
+    for (const t of e.ar.tetelek) {
+      const tr = document.createElement("tr");
+      const td1 = document.createElement("td");
+      td1.textContent = t.megnevezes;
+      const td2 = document.createElement("td");
+      td2.textContent = String(t.kredit);
+      tr.append(td1, td2);
+      tbody.append(tr);
+    }
+    const osszesen = document.createElement("tr");
+    const c1 = document.createElement("td");
+    c1.textContent = "Összesen";
+    const c2 = document.createElement("td");
+    c2.textContent = String(e.ar.osszesen);
+    osszesen.append(c1, c2);
+    tbody.append(osszesen);
+
+    $("in-egyenleg").textContent = String(fokonyv.osszesen);
+    $("in-levonas").textContent = e.terheles === undefined ? "—" : String(Math.abs(e.terheles.mennyiseg));
+  }
+
+  /* ---------- 3. tanács ---------- */
+
+  function tanacsPanel() {
+    const felismeres = M.tanacs.tipustFelismer($("ta-mondat").value);
+
+    let intent = M.tanacs.uresIntent("i-1", "p-1", MIKOR_ISO);
+    const valtozas = {};
+    if (felismeres.tipus !== undefined) valtozas.konstrukcioTipus = felismeres.tipus;
+    if ($("ta-cel").checked) valtozas.cel = "bevétel";
+    if ($("ta-kozonseg").checked) valtozas.kozonseg = "visszatérő vevők";
+    if ($("ta-mechanika").checked) valtozas.mechanika = "20% kedvezmény";
+    if ($("ta-igeret").checked) valtozas.igeret = "Egy hétig kedvezőbb áron.";
+    intent = M.tanacs.ujVerzio(intent, valtozas, MIKOR_ISO);
+
+    const a = M.tanacs.intentAllapot(intent);
+
+    if (felismeres.tipus === undefined) {
+      allapot($("ta-allapot"), "warn", "kérdez", "A típus nem egyértelmű — a rendszer nem választ helyetted.");
+    } else if (a.validalhato) {
+      allapot($("ta-allapot"), "pass", felismeres.tipus, "A kötelező mezők megvannak: a validáció indítható (8 kredit).");
+    } else {
+      allapot($("ta-allapot"), "warn", felismeres.tipus, a.hianyzoKotelezoMezok.length + " kötelező mező hiányzik, a beszélgetés folytatódik.");
+    }
+
+    $("ta-kitoltottseg").textContent = Math.round(a.kitoltottseg * 100) + "%";
+    $("ta-validalhato").textContent = a.validalhato ? "igen" : "nem";
+
+    const kerdesDoboz = $("ta-kerdes");
+    if (felismeres.kerdezniKell) {
+      kerdesDoboz.textContent = felismeres.kerdes;
+    } else {
+      const k = M.tanacs.kovetkezoKerdes(intent);
+      kerdesDoboz.textContent = k === undefined
+        ? "Nincs több kérdés — az Intent teljes."
+        : k.kod + " · " + k.kerdes + "\n\n" + k.indoklas;
+    }
+  }
+
+  /* ---------- 4. kérdezz ---------- */
+
+  const KE_KIFOGAS = {
+    "forras-nelkuli-allitas": ["badge--block", "forrás"],
+    "ismeretlen-forras": ["badge--block", "ismeretlen"],
+    "karantenos-forras": ["badge--block", "karantén"],
+    "idezetlen-szam": ["badge--warn", "szám"],
+    "tul-hosszu-rovid-valasz": ["badge--note", "hossz"],
+    "keves-alternativa": ["badge--note", "alternatíva"],
+    "sok-alternativa": ["badge--note", "alternatíva"],
+    "hianyag-elmulasztva": ["badge--block", "hiány-ág"],
+    "hianyag-forrast-idez": ["badge--block", "hiány-ág"],
+  };
+
+  function tetel(azonosito, relevancia, karantenos, kulcsallitas, szamok) {
+    return { azonosito, tipus: "kutatas", kulcsallitas, bizonyitekero: 4, karantenos, relevancia, agazat: undefined, felulet: undefined, szamok };
+  }
+
+  function kerdezzPanel() {
+    const tetelek = [];
+    if ($("ke-jo").checked) tetelek.push(tetel("KUT-118", 0.82, false, "A garancia kiemelése 17%-kal emelte a konverziót.", ["17%"]));
+    if ($("ke-karanten").checked) tetelek.push(tetel("KUT-999", 0.95, true, "Vitatott, karanténba tett forrás.", []));
+    if ($("ke-gyenge").checked) tetelek.push(tetel("KUT-204", 0.31, false, "Érintőleges említés.", []));
+
+    const visszakereses = M.kerdezz.forrasokatSzur(tetelek);
+
+    let kartya;
+    if (visszakereses.hianyAg && !$("ke-forras").checked && !$("ke-szam").checked && !$("ke-karantenidezet").checked) {
+      kartya = M.kerdezz.hianyKartya("Működik a garancia-kiemelés B2B-ben?", ["A/B-teszt a saját listán, 4 hét"]);
+    } else {
+      const forras = visszakereses.hasznalhato.length > 0 ? [visszakereses.hasznalhato[0].azonosito] : [];
+      const rovidValasz = [{
+        szoveg: $("ke-szam").checked
+          ? "A garancia kiemelése nagyjából 30%-ot hozhat."
+          : "A garancia kiemelése segít, mert csökkenti az észlelt kockázatot.",
+        forrasAzonositok: $("ke-forras").checked ? [] : forras,
+      }];
+      if ($("ke-karantenidezet").checked) {
+        rovidValasz.push({ szoveg: "Egy másik vizsgálat is ezt mondja.", forrasAzonositok: ["KUT-999"] });
+      }
+      kartya = {
+        rovidValasz,
+        technikak: [{ kod: "TK-045", nev: "Kockázatcsökkentés", mechanizmus: "A vevő félelmét oldja.", forrasAzonositok: forras }],
+        bizonyitek: M.kerdezz.bizonyitekBlokkot(visszakereses.hasznalhato),
+        alternativak: [
+          { cim: "Konzervatív", leiras: "Tedd a garanciát a gomb mellé.", forrasAzonositok: forras },
+          { cim: "Bátrabb", leiras: "Emeld az első képernyőre.", forrasAzonositok: forras },
+        ],
+        amitNemTudunk: ["B2B-re nincs mért eredmény."],
+        kovetkezoLepesek: [{ cim: "Indíts auditot", muvelet: "audit" }],
+        hianyKimondas: false,
+      };
+    }
+
+    const e = M.kerdezz.valasztEllenoriz(kartya, visszakereses);
+
+    allapot(
+      $("ke-allapot"),
+      e.kiadhato ? "pass" : "block",
+      kartya.hianyKimondas ? "hiány-ág" : e.kiadhato ? "kiadható" : "visszaküldve",
+      kartya.hianyKimondas
+        ? "Nincs használható forrás — a kártya kimondja a hiányt, és megmondja, mit lehetne mérni."
+        : e.kiadhato
+          ? "A válasz minden állítása forrásolt, minden száma idézett."
+          : e.kifogasok.length + " őr fogta meg a választ.",
+    );
+
+    const lista = $("ke-kifogasok");
+    lista.innerHTML = "";
+    for (const k of e.kifogasok) {
+      const [osztaly, cimke] = KE_KIFOGAS[k.szabaly] ?? ["badge--note", "kifogás"];
+      lista.append(finding(osztaly, cimke, k.szabaly, k.reszlet));
+    }
+
+    $("ke-hasznalhato").textContent = String(visszakereses.hasznalhato.length);
+    $("ke-kizart").textContent = String(visszakereses.kizart.length);
+  }
+
+  /* ---------- 5. kapuk ---------- */
+
+  function gateLista(elem, eredmeny) {
+    elem.innerHTML = "";
+    for (const k of eredmeny.kapuk) {
+      const li = document.createElement("li");
+      li.className = "gate" + (k.teljesult ? "" : " gate--red");
+      const dot = document.createElement("span");
+      dot.className = "gate__dot";
+      const nev = document.createElement("span");
+      nev.className = "gate__name";
+      nev.textContent = k.nev;
+      const ertek = document.createElement("span");
+      ertek.className = "gate__value";
+      ertek.textContent = k.mert <= 1 && k.kuszob <= 1 && k.kuszob !== 0
+        ? (k.mert * 100).toFixed(0) + "%"
+        : String(k.mert);
+      const msg = document.createElement("span");
+      msg.className = "gate__msg";
+      msg.textContent = k.uzenet;
+      li.append(dot, nev, ertek, msg);
+      elem.append(li);
+    }
+  }
+
+  function kapukPanel() {
+    const pass = Number($("ka-pass").value);
+    const ko = Number($("ka-ko").value);
+    const hiany = Number($("ka-hiany").value);
+    $("ka-pass-ertek").textContent = pass + "%";
+    $("ka-ko-ertek").textContent = String(ko);
+    $("ka-hiany-ertek").textContent = String(hiany);
+
+    const terv = M.kalibracio.tervKapukatErtekel({
+      tesztekSzama: 30,
+      passDarab: Math.round((pass / 100) * 30),
+      forditottKontrollok: 5,
+      forditottKontrollHelyes: 5,
+      sajatJavaslatKoSertes: ko,
+    });
+
+    const qaAlap = { tesztekSzama: 40, forrasNelkuliAllitasok: 0, nincsBizonyitekKontrollok: 8, helyesHianyKimondas: 8, kuszobAlattiValaszok: 0 };
+    const qa = M.kalibracio.ketSzamosKapu(
+      { tanulo: qaAlap, heldOut: { ...qaAlap, helyesHianyKimondas: hiany } },
+      M.kalibracio.qaKapukatErtekel,
+    );
+
+    const zold = terv.kiadhato && qa.kiadhato;
+    allapot(
+      $("ka-allapot"),
+      zold ? "pass" : "block",
+      zold ? "élesíthető" : "blokk",
+      zold ? "Mindkét mód mindkét készleten zöld." : "Van bukott kapu — a detektor-verzió nem élesíthető. " + qa.uzenet,
+    );
+
+    gateLista($("ka-terv"), terv);
+    gateLista($("ka-qa"), qa.heldOut);
+  }
+
+  /* ---------- bekötés ---------- */
+
+  const kot = (idk, fn) => {
+    for (const id of idk) {
+      const elem = $(id);
+      elem.addEventListener("input", fn);
+      elem.addEventListener("change", fn);
+    }
+    fn();
+  };
+
+  kot(["bo-szoveg", "bo-tilto", "bo-proof"], brandOrPanel);
+  kot(["in-szerep", "in-brand", "in-csomag", "in-muvelet", "in-kredit"], inditasPanel);
+  kot(["ta-mondat", "ta-cel", "ta-kozonseg", "ta-mechanika", "ta-igeret"], tanacsPanel);
+  kot(["ke-jo", "ke-karanten", "ke-gyenge", "ke-forras", "ke-szam", "ke-karantenidezet"], kerdezzPanel);
+  kot(["ka-pass", "ka-ko", "ka-hiany"], kapukPanel);
+})();
+</script>

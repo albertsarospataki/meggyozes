@@ -1,4 +1,4 @@
-import type { FutasOsszesito, TesztPontszam } from "./pontozas.js";
+import type { FutasOsszesito, TesztPontszam } from "./pontozas";
 
 /**
  * Release-blokkoló kapuk (Product Constitution v1.0 §6, kalibrált mércék 2026-08-29).

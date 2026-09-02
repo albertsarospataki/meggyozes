@@ -1,6 +1,6 @@
 import type { TudasbazisPillanatkep } from "@meggyozes/core";
-import { TAR_FORRASOK, TAR_NEVEK, type TarNev } from "./forrasok.js";
-import type { NotionForras, NotionOldal } from "./notion-kliens.js";
+import { TAR_FORRASOK, TAR_NEVEK, type TarNev } from "./forrasok";
+import type { NotionForras, NotionOldal } from "./notion-kliens";
 import {
   aranystandardotLekepez,
   diszkriminanstLekepez,
@@ -12,8 +12,8 @@ import {
   szabalytLekepez,
   technikatLekepez,
   type KodTerkep,
-} from "./lekepezes.js";
-import { konzisztenciatEllenoriz, elesitheto, type ArvaRelacio, type KonzisztenciaLelet } from "./konzisztencia.js";
+} from "./lekepezes";
+import { konzisztenciatEllenoriz, elesitheto, type ArvaRelacio, type KonzisztenciaLelet } from "./konzisztencia";
 
 /** Melyik táron mely mezők hordoznak relációt — az árva-ellenőrzés ezeket járja be. */
 const RELACIOS_MEZOK: Readonly<Record<TarNev, readonly string[]>> = {

@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "paths": {
+      "@meggyozes/bemenet": ["../bemenet/src/index.ts"],
+      "@meggyozes/brand": ["../brand/src/index.ts"],
+      "@meggyozes/core": ["../core/src/index.ts"],
+      "@meggyozes/projekt": ["../projekt/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "references": [
+    { "path": "../bemenet" },
+    { "path": "../brand" },
+    { "path": "../core" },
+    { "path": "../projekt" }
+  ]
+}

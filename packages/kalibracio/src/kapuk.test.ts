@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { ALAPVONAL_FUTAS_6, kapukatErtekel, regressziokatKeres } from "./kapuk.js";
-import type { FutasOsszesito, TesztPontszam } from "./pontozas.js";
+import { ALAPVONAL_FUTAS_6, kapukatErtekel, regressziokatKeres } from "./kapuk";
+import type { FutasOsszesito, TesztPontszam } from "./pontozas";
 
 function osszesito(r: Partial<FutasOsszesito> = {}): FutasOsszesito {
   return {

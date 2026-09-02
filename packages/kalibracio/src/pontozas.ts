@@ -4,7 +4,7 @@ import {
   type FuttatasEredmeny,
   type MintaTipus,
 } from "@meggyozes/core";
-import type { EkvivalenciaTerkep, TeljesitesIndok } from "./ekvivalencia.js";
+import type { EkvivalenciaTerkep, TeljesitesIndok } from "./ekvivalencia";
 
 /**
  * A 150 tesztes aranystandard gépi pontozója.
