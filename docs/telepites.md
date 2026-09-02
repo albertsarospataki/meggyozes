@@ -43,30 +43,44 @@ megmondja.
 
 ## 3. lépés — Az indítás (első alkalommal 15 perc)
 
-1. Nyisd meg a kicsomagolt mappát, azon belül a **`scripts`** mappát.
-2. Keresd meg a **`convictly-inditas.command`** fájlt.
-3. **Jobb gomb → Megnyitás** (nem dupla kattintás először!). A macOS rákérdez, hogy
-   biztosan megnyitod-e — válaszd a **Megnyitás** gombot.
+A szkriptet a Terminálból indítjuk. Ez a megbízható út: nem függ attól, hogy a ZIP
+megőrizte-e a futtatási jogot, és a macOS biztonsági blokkolása sem áll az útjába.
+**Nem kell semmit begépelned a fájl elérési útjából — a fájlt behúzod az ablakba.**
 
-   *Miért jobb gomb: a macOS az internetről letöltött szkripteket alapból nem
-   engedi elindulni. A jobb gombos megnyitás az a hivatalos mód, amivel egyszer
-   engedélyezed. Utána már a dupla kattintás is működik.*
+1. Nyisd meg a **Terminál** alkalmazást:
+   `Cmd + Szóköz`, írd be: `terminál`, Enter.
+   (Egy fekete vagy fehér ablak nyílik meg szöveges sorral. Ez normális.)
 
-4. Megnyílik egy fekete ablak (Terminál), és elkezd dolgozni. Négy lépést fogsz látni:
+2. Az ablakba írd be ezt a négy betűt és **egy szóközt** — a szóköz fontos:
 
    ```
-   1/4 · Függőségek letöltése
-   2/4 · Böngésző letöltése az URL-auditokhoz
-   3/4 · Alkalmazás összeállítása
-   4/4 · Indítás
+   bash 
    ```
 
-   Az első két lépés tart sokáig (letöltés). **Ne zárd be az ablakot.**
+3. Nyisd meg a Finderben a kicsomagolt projekt mappáját, azon belül a **`scripts`**
+   mappát.
 
-5. Amikor kész, magától megnyílik a böngésződ ezen a címen:
-   **http://localhost:3000**
+4. **Húzd rá** a `convictly-inditas.command` fájlt a Terminál ablakára, és engedd el.
+   A fájl elérési útja magától beíródik a `bash ` után.
 
-6. A belépő kód: **`convictly`**
+5. Nyomj **Entert**.
+
+Ennyi. Az ablak elkezd dolgozni, és négy lépést fogsz látni:
+
+```
+1/4 · Függőségek letöltése
+2/4 · Böngésző letöltése az URL-auditokhoz
+3/4 · Alkalmazás összeállítása
+4/4 · Indítás
+```
+
+Az első két lépés tart sokáig (letöltés, összesen kb. 10–15 perc).
+**Ne zárd be az ablakot.**
+
+Amikor kész, magától megnyílik a böngésződ ezen a címen:
+**http://localhost:3000**
+
+A belépő kód: **`convictly`**
 
 Kész. Ez a rendszer, futásban.
 
@@ -74,13 +88,13 @@ Kész. Ez a rendszer, futásban.
 
 ## Naponta: hogyan indítod újra
 
-Dupla kattintás a `scripts/convictly-inditas.command` fájlra. Ilyenkor már gyors —
-15–20 másodperc.
+Ugyanígy: Terminál → `bash ` → fájl behúzása → Enter. Ilyenkor már gyors, 15–20
+másodperc.
 
-**Leállítás:** zárd be a fekete Terminál-ablakot. (Amíg nyitva van, a rendszer fut.)
+**Leállítás:** zárd be a Terminál-ablakot. (Amíg nyitva van, a rendszer fut.)
 
-Ha gyakran használod, húzd a `convictly-inditas.command` fájlt a Dockba, és onnan
-egy kattintás.
+**Ha egyszerűbbet szeretnél:** miután egyszer lefutott, a Terminálban a **felfelé
+nyíl** előhozza az előző parancsot — elég Entert nyomni.
 
 ---
 
@@ -97,8 +111,14 @@ egy kattintás.
 
 ## Ha valami elakad
 
-**„A fájl nem nyitható meg, mert ismeretlen fejlesztőtől származik."**
-Jobb gomb a fájlra → Megnyitás → Megnyitás. (Nem dupla kattintás.)
+**Dupla kattintással próbáltam, és nem történt semmi (vagy TextEdit nyílt meg).**
+Ez a várható viselkedés: az internetről letöltött szkriptekre a macOS nem ad
+futtatási jogot. Ezért indítjuk Terminálból, a 3. lépés szerint — ott ez a
+korlátozás nem érvényes.
+
+**„command not found: bash" vagy hasonló.**
+Valószínűleg lemaradt a szóköz a `bash` után, vagy a fájl útja nem került be.
+Töröld a sort (Ctrl+U), és kezdd újra: `bash `, szóköz, majd húzd be a fájlt.
 
 **„Nincs telepítve a Node.js."**
 Az 1. lépés kimaradt. Telepítsd, majd indítsd újra a `.command` fájlt.

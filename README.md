@@ -75,7 +75,9 @@ A C és E réteg készült el elsőként, szándékosan:
 ## Az alkalmazás
 
 **Nem fejlesztőknek:** [docs/telepites.md](docs/telepites.md) — Node.js telepítése, a
-projekt letöltése, és a `scripts/convictly-inditas.command` dupla kattintással.
+projekt letöltése, majd Terminálban `bash ` + a `scripts/convictly-inditas.command`
+fájl behúzása. (A dupla kattintás azért nem elsődleges út, mert a ZIP-ből letöltött
+szkript futtatási jogát a macOS nem adja meg.)
 
 ```bash
 pnpm install
