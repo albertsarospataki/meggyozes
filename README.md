@@ -1,4 +1,4 @@
-# Meggyőzés szoftver
+# Convictly — meggyőzés-technikai szakértő
 
 Meggyőzés-technikai audit és javaslatlista weboldalról, landingről, checkoutról és
 cookie-folyamatról. A rendszer felismeri, mely technikák dolgoznak a felületen és
@@ -71,6 +71,35 @@ A C és E réteg készült el elsőként, szándékosan:
   fegyelem, heti kurátori csomag.
 - **`packages/folyamat`** — a rétegek összekötése: indítás négy kapuval (jogosultság →
   csomagkorlát → kredit → terhelés) és lezárás (HUM-kapu, brand-őr, visszaírás).
+
+## Az alkalmazás
+
+```bash
+pnpm install
+pnpm app:build          # a csomagok + a Next.js alkalmazás
+ALFA_MEGHIVO=alfa pnpm app:start     # http://localhost:3000
+```
+
+Belépés a meghívó-kóddal (`ALFA_MEGHIVO`, alapértelmezés: `alfa`). Az alfa nem
+csomag, hanem állapot: Pro-képességek kártya nélkül, a havi keret az
+`ALFA_HAVI_KREDIT` változóból. Az adatbázis SQLite, alapból `.adat/convictly.sqlite`.
+
+Az URL-ajtó valódi böngészőt indít (Playwright). Ahol a Chromium már ott van a gépen,
+a `CHROMIUM_UTVONAL` felülírja a keresést.
+
+Az arculat a **Convictly brandbook v2.0** tokenjeire épül
+(`apps/web/app/globals.css`): a forrás a brandbook, a tokenfájl belőle készül.
+
+| Oldal | Mit ad |
+|---|---|
+| Vezérlőpult | aktív brand készültsége, következő lépés, kredit, legutóbbi riportok |
+| Brandek | brand-profil kérdőív, bizonyíték-tár, tiltólista és hangnem, készültség-tábla |
+| Audit | négy ajtóból kettő élesben (URL, szöveg), P0 kontextus, kredit-előnézet |
+| Riport | összefoglaló, korlátok elöl, négy sáv, pozitív visszaigazolás, top-5, brand-egyezés, szakértői tábla, tisztázó kérdések |
+| Tanács | konstrukció-felismerés, egyenkénti bekérés, Intent-panel, előzetes validáció építési sorrenddel |
+| Kérdezz | hat blokkos válasz-kártya, forrás-kötelezettséggel és hiány-ággal |
+| Előfizetés | csomagkorlátok, kredit-árlista, tételes kredit-történet |
+| Admin | HUM-kapu sor, tudásbázis-állapot, CI-kapuk, kurátori csomag |
 
 ## A szabályok működés közben
 
