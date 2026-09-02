@@ -8,7 +8,7 @@
  */
 
 import type { BizonyitekSzint } from "@meggyozes/core";
-import { anonimizal, anonimizalhato } from "./anonimizalas.js";
+import { anonimizal, anonimizalhato } from "./anonimizalas";
 
 export type VisszajelzesTipus = "helyes" | "nem-helyes" | "nem-ertem" | "megvalositottuk";
 

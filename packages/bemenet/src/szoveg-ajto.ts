@@ -6,7 +6,7 @@
  * jelosztályok itt nem eldönthetők. Ez nem hiányosság, hanem a bemenet határa.
  */
 
-import { szovegetNormalizal, type ArtefaktumObjektum, type Blokk, type BlokkSzerep } from "./artefaktum-objektum.js";
+import { szovegetNormalizal, type ArtefaktumObjektum, type Blokk, type BlokkSzerep } from "./artefaktum-objektum";
 
 const AR_MINTA = /(\d[\d  .,]*)\s?(Ft|HUF|EUR|€|\$|USD)/gi;
 const GOMB_MINTA = /^(?:\[?)(vásárlás|kosárba|megveszem|kipróbálom|regisztrálok|feliratkozom|érdekel|kérem|tovább|ingyen|indítsd|próbáld)\b.*$/i;

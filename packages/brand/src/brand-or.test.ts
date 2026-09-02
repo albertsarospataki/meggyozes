@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { brandOr, SZAM_HELYORZO } from "./brand-or.js";
-import { uresProfil, type BrandProfil } from "./profil.js";
+import { brandOr, SZAM_HELYORZO } from "./brand-or";
+import { uresProfil, type BrandProfil } from "./profil";
 
 const mikor = new Date("2026-09-02T10:00:00Z");
 

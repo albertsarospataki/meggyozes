@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { auditIndithato, brandNyithato, CSOMAGOK, ulesNyithato } from "./csomag.js";
+import { auditIndithato, brandNyithato, CSOMAGOK, ulesNyithato } from "./csomag";
 
 describe("csomagkorlátok", () => {
   it("a Starter két brandet és három ülést enged", () => {

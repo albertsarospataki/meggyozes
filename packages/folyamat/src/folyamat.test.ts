@@ -8,8 +8,8 @@ import {
   type Fokonyv,
   type Tagsag,
 } from "@meggyozes/szervezet";
-import { inditastEllenoriz, type InditasKeres } from "./inditas.js";
-import { futastLezar, kreditetRendez } from "./lezaras.js";
+import { inditastEllenoriz, type InditasKeres } from "./inditas";
+import { futastLezar, kreditetRendez } from "./lezaras";
 
 const mikor = "2026-09-03T09:00:00Z";
 

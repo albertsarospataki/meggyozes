@@ -1,3 +1,3 @@
-export * from "./anonimizalas.js";
-export * from "./jelolt.js";
-export * from "./kuratori-csomag.js";
+export * from "./anonimizalas";
+export * from "./jelolt";
+export * from "./kuratori-csomag";

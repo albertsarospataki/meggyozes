@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { kodErtekeketKinyer, kodFedi, kodokatKinyer, kodotElemez, kodotNormalizal } from "./kodok.js";
+import { kodErtekeketKinyer, kodFedi, kodokatKinyer, kodotElemez, kodotNormalizal } from "./kodok";
 
 describe("kodotElemez — egyetlen kód normalizálása", () => {
   it("párnázza a jel- és technikakódot három számjegyre", () => {

@@ -8,7 +8,7 @@ import {
   kiegeszitoVasarlas,
   visszairasok,
   type KreditTranzakcio,
-} from "./fokonyv.js";
+} from "./fokonyv";
 
 const szerv = "szerv-1";
 const ciklus = { szervezetAzonosito: szerv, haviKredit: 300, ciklusKezdet: "2026-09-01T00:00:00Z", ciklusVege: "2026-10-01T00:00:00Z" };

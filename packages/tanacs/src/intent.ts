@@ -7,7 +7,7 @@
  * marad, és a kredit is ehhez kötődik (validáció 8, iteráció 4).
  */
 
-import type { KonstrukcioTipus } from "./konstrukcio.js";
+import type { KonstrukcioTipus } from "./konstrukcio";
 
 export const INTENT_MEZOK = [
   "konstrukcioTipus",

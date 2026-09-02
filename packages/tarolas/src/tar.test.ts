@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { uresProfil } from "@meggyozes/brand";
 import type { Projekt } from "@meggyozes/projekt";
-import { Tar, type Hatokor } from "./tar.js";
-import { kezdoallapototLetrehoz } from "./kezdoallapot.js";
+import { Tar, type Hatokor } from "./tar";
+import { kezdoallapototLetrehoz } from "./kezdoallapot";
 
 function tar(): Tar {
   const t = new Tar(":memory:");

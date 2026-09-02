@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { TAR_FORRASOK, type TarNev } from "./forrasok.js";
-import type { NotionForras, NotionOldal } from "./notion-kliens.js";
-import { kodTerkepetEpit, szabalytLekepez, jeletLekepez } from "./lekepezes.js";
-import { konzisztenciatEllenoriz, elesitheto } from "./konzisztencia.js";
-import { indexetEpit, szabalyokatElohiv } from "./index-epito.js";
-import { arvaRelaciokatKeres, szinkronizal } from "./szinkron.js";
+import { TAR_FORRASOK, type TarNev } from "./forrasok";
+import type { NotionForras, NotionOldal } from "./notion-kliens";
+import { kodTerkepetEpit, szabalytLekepez, jeletLekepez } from "./lekepezes";
+import { konzisztenciatEllenoriz, elesitheto } from "./konzisztencia";
+import { indexetEpit, szabalyokatElohiv } from "./index-epito";
+import { arvaRelaciokatKeres, szinkronizal } from "./szinkron";
 
 /** Notion-oldal gyártó a tesztekhez — csak a ténylegesen használt property-alakok. */
 function oldal(id: string, properties: Record<string, unknown>): NotionOldal {

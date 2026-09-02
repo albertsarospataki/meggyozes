@@ -1,3 +1,4 @@
-export * from "./tudasbazis.js";
-export * from "./demo-tudasbazis.js";
-export * from "./pipeline.js";
+export * from "./tudasbazis";
+export * from "./demo-tudasbazis";
+export * from "./pipeline";
+export * from "./terv";

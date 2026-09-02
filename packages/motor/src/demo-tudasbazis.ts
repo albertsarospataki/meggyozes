@@ -20,7 +20,7 @@
  */
 
 import type { ArtefaktumObjektum, Blokk } from "@meggyozes/bemenet";
-import type { Elvaras, Jel, JelTalalat, MotorTudasbazis, PozitivTetel, Szabaly, Technika } from "./tudasbazis.js";
+import type { Elvaras, Jel, JelTalalat, MotorTudasbazis, PozitivTetel, Szabaly, Technika } from "./tudasbazis";
 
 const ekezet: Readonly<Record<string, string>> = {
   á: "a", é: "e", í: "i", ó: "o", ö: "o", ő: "o", ú: "u", ü: "u", ű: "u",

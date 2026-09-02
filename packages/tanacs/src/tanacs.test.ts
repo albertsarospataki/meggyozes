@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { uresProfil, type BrandProfil } from "@meggyozes/brand";
-import { briefetGeneral, sorrendetEllenoriz, type Epitoelem, type EpitesiLepes } from "./brief.js";
-import { intentAllapot, intentKulonbseg, ujVerzio, uresIntent, type Intent } from "./intent.js";
-import { kapuzottJavaslatok, sajatJavaslatKapu } from "./kapu.js";
-import { belepoCsomag, kovetkezoKerdes, nyitottKerdesek } from "./kerdesek.js";
-import { KONSTRUKCIO_TIPUSOK, tipustFelismer } from "./konstrukcio.js";
+import { briefetGeneral, sorrendetEllenoriz, type Epitoelem, type EpitesiLepes } from "./brief";
+import { intentAllapot, intentKulonbseg, ujVerzio, uresIntent, type Intent } from "./intent";
+import { kapuzottJavaslatok, sajatJavaslatKapu } from "./kapu";
+import { belepoCsomag, kovetkezoKerdes, nyitottKerdesek } from "./kerdesek";
+import { KONSTRUKCIO_TIPUSOK, tipustFelismer } from "./konstrukcio";
 
 describe("konstrukció-típus felismerése", () => {
   it("a belépő mondatból felismeri az akciót", () => {

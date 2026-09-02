@@ -8,7 +8,7 @@ import {
   tervKapukatErtekel,
   type QaFutasOsszesito,
   type TervFutasOsszesito,
-} from "./mod-kapuk.js";
+} from "./mod-kapuk";
 
 const tervZold: TervFutasOsszesito = {
   tesztekSzama: 30,

@@ -12,7 +12,7 @@
  * romlása észrevétlen maradna.
  */
 
-import type { KapuEredmeny, KapuErtekeles } from "./kapuk.js";
+import type { KapuEredmeny, KapuErtekeles } from "./kapuk";
 
 /** A bázisok elvárt mérete a 9. fejezet szerint. */
 export const BAZIS_MERETEK = { audit: 150, terv: 30, qa: 40, brand: 20 } as const;

@@ -14,8 +14,8 @@ import {
   type Szabaly,
   type Technika,
 } from "@meggyozes/core";
-import type { NotionOldal } from "./notion-kliens.js";
-import { TAR_FORRASOK, type TarNev } from "./forrasok.js";
+import type { NotionOldal } from "./notion-kliens";
+import { TAR_FORRASOK, type TarNev } from "./forrasok";
 
 /**
  * Notion-oldal → domain sor.

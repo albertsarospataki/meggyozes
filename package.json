@@ -15,7 +15,10 @@
     "kb:sync": "tsx packages/kb-sync/src/cli.ts",
     "kalibracio": "tsx packages/kalibracio/src/cli.ts",
     "ellenoriz": "pnpm typecheck && pnpm test",
-    "demo:build": "node demo/build.mjs"
+    "demo:build": "node demo/build.mjs",
+    "app": "pnpm --filter @meggyozes/web dev",
+    "app:build": "pnpm --filter @meggyozes/web build",
+    "app:start": "pnpm --filter @meggyozes/web start"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

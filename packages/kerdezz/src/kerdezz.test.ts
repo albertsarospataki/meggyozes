@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { kerdestOsztalyoz } from "./kerdes.js";
-import { bizonyitekBlokkot, hianyKartya, valasztEllenoriz, type ValaszKartya } from "./valasz.js";
-import { forrasokatSzur, RELEVANCIA_KUSZOB, type ForrasTetel } from "./visszakereses.js";
+import { kerdestOsztalyoz } from "./kerdes";
+import { bizonyitekBlokkot, hianyKartya, valasztEllenoriz, type ValaszKartya } from "./valasz";
+import { forrasokatSzur, RELEVANCIA_KUSZOB, type ForrasTetel } from "./visszakereses";
 
 function tetel(x: Partial<ForrasTetel> & { azonosito: string }): ForrasTetel {
   return {

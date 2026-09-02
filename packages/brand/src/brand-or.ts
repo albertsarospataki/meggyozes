@@ -13,9 +13,9 @@
  *  4. hangnem-eltérés    → JELÖLÉS (nem blokkol, de a szerkesztőnek szól)
  */
 
-import { FELSOFOK_TALALATOK } from "./felsofok.js";
-import { ervenyesProofPoint, type BrandProfil } from "./profil.js";
-import { idezetKivag, keresesiAlak, kifejezestKeres } from "./szoveg.js";
+import { FELSOFOK_TALALATOK } from "./felsofok";
+import { ervenyesProofPoint, type BrandProfil } from "./profil";
+import { idezetKivag, keresesiAlak, kifejezestKeres } from "./szoveg";
 
 export type BrandKifogasSzint = "visszakuldes" | "helyorzo" | "jeloles";
 

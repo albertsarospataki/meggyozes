@@ -1,3 +1,3 @@
-export * from "./modell.js";
-export * from "./idovonal.js";
-export * from "./osszehasonlitas.js";
+export * from "./modell";
+export * from "./idovonal";
+export * from "./osszehasonlitas";

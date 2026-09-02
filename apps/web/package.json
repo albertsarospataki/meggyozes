@@ -20,12 +20,14 @@
     "@meggyozes/tanulas": "workspace:*",
     "next": "16.3.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "@meggyozes/tarolas": "workspace:*",
+    "@meggyozes/motor": "workspace:*",
+    "@meggyozes/bemenet": "workspace:*"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.14",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.14"
+    "typescript": "^5.7.2"
   }
 }

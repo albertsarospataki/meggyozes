@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { BRAND_BLOKKOK, BRAND_KONTEXTUS_KUSZOB, keszultseget } from "./keszultseg.js";
-import { uresProfil, type BrandProfil } from "./profil.js";
+import { BRAND_BLOKKOK, BRAND_KONTEXTUS_KUSZOB, keszultseget } from "./keszultseg";
+import { uresProfil, type BrandProfil } from "./profil";
 
 function feltoltott(): BrandProfil {
   const p = uresProfil("b", "sz", "Példa Kft.");

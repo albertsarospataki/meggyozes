@@ -1,3 +1,3 @@
-export * from "./sema.js";
-export * from "./tar.js";
-export * from "./kezdoallapot.js";
+export * from "./sema";
+export * from "./tar";
+export * from "./kezdoallapot";

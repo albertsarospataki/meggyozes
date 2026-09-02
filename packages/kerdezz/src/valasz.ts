@@ -16,7 +16,7 @@
  */
 
 import { szamotNormalizal, szamTalalatok } from "@meggyozes/brand";
-import type { ForrasTetel, VisszakeresesEredmeny } from "./visszakereses.js";
+import type { ForrasTetel, VisszakeresesEredmeny } from "./visszakereses";
 
 export interface Allitas {
   readonly szoveg: string;

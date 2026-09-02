@@ -10,7 +10,7 @@
  * listáról és mi jött helyette — a hatás oksági állítása nem a mi dolgunk.
  */
 
-import type { Megallapitas, Megvalositas, Riport } from "./modell.js";
+import type { Megallapitas, Megvalositas, Riport } from "./modell";
 
 export type ValtozasTipus = "megszunt" | "uj" | "valtozatlan" | "valtozott";
 

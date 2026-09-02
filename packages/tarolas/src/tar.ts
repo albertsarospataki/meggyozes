@@ -8,7 +8,6 @@
  * hanem típus.
  */
 
-import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import type { BrandProfil } from "@meggyozes/brand";
@@ -16,18 +15,17 @@ import type { Artefaktum, Futas, Projekt, Riport, Uzemmod } from "@meggyozes/pro
 import type { KreditTranzakcio, Szerep, Tagsag } from "@meggyozes/szervezet";
 import type { Intent } from "@meggyozes/tanacs";
 import type { TanulasiJelolt, Visszajelzes } from "@meggyozes/tanulas";
-import { SEMA } from "./sema.js";
+import { SEMA } from "./sema";
 
 /**
- * A `node:sqlite` futásidőben töltődik be.
+ * A `node:sqlite` a futtatókörnyezetből jön, nem importból.
  *
  * A beépített SQLite-modul újabb, mint a köteg-építők beépített-modul listája: a Vite
- * és a webpack egyaránt megpróbálja feloldani „sqlite" csomagként, és elhasal rajta.
- * A változóba tett modulnév ezt a statikus elemzést kerüli meg — a típusok viszont
- * a valódi modulból jönnek, tehát a fordító továbbra is ellenőriz.
+ * „sqlite" csomagként próbálná feloldani, a Turbopack pedig a require-hídon akad el.
+ * A `process.getBuiltinModule` mindkettőnek láthatatlan, mert nem modul-hivatkozás —
+ * a típusok viszont a valódi modulból jönnek, tehát a fordító továbbra is ellenőriz.
  */
-const modulNev = "node:sqlite";
-const { DatabaseSync } = createRequire(import.meta.url)(modulNev) as typeof import("node:sqlite");
+const { DatabaseSync } = process.getBuiltinModule("node:sqlite");
 type DatabaseSync = import("node:sqlite").DatabaseSync;
 
 export interface Hatokor {

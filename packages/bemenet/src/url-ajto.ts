@@ -12,7 +12,7 @@
 
 import { existsSync } from "node:fs";
 import { chromium, type Browser, type LaunchOptions } from "playwright";
-import { szovegetNormalizal, type ArtefaktumObjektum, type Blokk, type BlokkSzerep } from "./artefaktum-objektum.js";
+import { szovegetNormalizal, type ArtefaktumObjektum, type Blokk, type BlokkSzerep } from "./artefaktum-objektum";
 
 /**
  * Böngésző-útvonal.

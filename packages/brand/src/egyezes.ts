@@ -7,10 +7,10 @@
  * — olyankor a blokk kimondja, hogy általános javaslat készült.
  */
 
-import { keszultseget, type Keszultseg } from "./keszultseg.js";
-import { ervenyesProofPoint, type BrandProfil } from "./profil.js";
-import { idezetKivag, keresesiAlak, kifejezestKeres } from "./szoveg.js";
-import { FELSOFOK_TALALATOK } from "./felsofok.js";
+import { keszultseget, type Keszultseg } from "./keszultseg";
+import { ervenyesProofPoint, type BrandProfil } from "./profil";
+import { idezetKivag, keresesiAlak, kifejezestKeres } from "./szoveg";
+import { FELSOFOK_TALALATOK } from "./felsofok";
 
 export type EgyezesAllapot = "egyezik" | "reszben" | "nem-talalhato" | "elter" | "nem-eldontheto";
 
@@ -144,13 +144,16 @@ export function brandEgyezes(artefaktumSzoveg: string, profil: BrandProfil | und
   });
 
   const eltero = tetelek.filter((t) => t.allapot === "elter" || t.allapot === "nem-talalhato").length;
+  // Magyar tizedes: vessző (brandbook 6.2). A készültség a riportban fut, ezért a
+  // formázás itt dől el, nem a felületen — hogy minden felhasználási helyen egyforma.
+  const pont = kesz.pont.toFixed(1).replace(".", ",");
   return {
     vanProfil: true,
     keszultseg: kesz,
     tetelek,
     osszefoglalo:
       eltero === 0
-        ? `Az anyag illeszkedik a brand-profilhoz (készültség ${kesz.pont}/5).`
-        : `${eltero} ponton tér el az anyag a brand-profiltól (készültség ${kesz.pont}/5).`,
+        ? `Az anyag illeszkedik a brand-profilhoz (készültség ${pont}/5).`
+        : `${eltero} ponton tér el az anyag a brand-profiltól (készültség ${pont}/5).`,
   };
 }

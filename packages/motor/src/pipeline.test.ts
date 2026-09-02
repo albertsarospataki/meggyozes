@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { szovegAjto } from "@meggyozes/bemenet";
 import { uresProfil, type BrandProfil } from "@meggyozes/brand";
 import type { AuditKontextus } from "@meggyozes/core";
-import { DEMO_TUDASBAZIS } from "./demo-tudasbazis.js";
-import { auditotFuttat } from "./pipeline.js";
+import { DEMO_TUDASBAZIS } from "./demo-tudasbazis";
+import { auditotFuttat } from "./pipeline";
 
 const verzio = {
   tudasbazisVerzio: DEMO_TUDASBAZIS.verzio,

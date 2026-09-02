@@ -7,7 +7,7 @@
  * pontosabbá — a felhasználó különben nem tudja, miért érné meg tanítani.
  */
 
-import type { BrandProfil } from "./profil.js";
+import type { BrandProfil } from "./profil";
 
 export const BRAND_BLOKKOK = [
   "alapadatok",

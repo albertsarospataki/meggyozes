@@ -1,3 +1,3 @@
-export * from "./visszakereses.js";
-export * from "./kerdes.js";
-export * from "./valasz.js";
+export * from "./visszakereses";
+export * from "./kerdes";
+export * from "./valasz";

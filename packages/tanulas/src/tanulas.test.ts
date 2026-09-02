@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { anonimizal, anonimizalhato, HELYORZOK } from "./anonimizalas.js";
-import { heldOutSzures, heldOutVizsgalat, jeloltetKepez, type MegallapitasHivatkozas, type TanulasiJelolt, type Visszajelzes } from "./jelolt.js";
-import { kuratorDont, kuratoriCsomag } from "./kuratori-csomag.js";
+import { anonimizal, anonimizalhato, HELYORZOK } from "./anonimizalas";
+import { heldOutSzures, heldOutVizsgalat, jeloltetKepez, type MegallapitasHivatkozas, type TanulasiJelolt, type Visszajelzes } from "./jelolt";
+import { kuratorDont, kuratoriCsomag } from "./kuratori-csomag";
 
 const megallapitas: MegallapitasHivatkozas = {
   azonosito: "m-1",

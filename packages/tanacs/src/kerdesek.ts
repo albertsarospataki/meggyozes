@@ -10,8 +10,8 @@
  * űrlap elriaszt, a beszélgetés nem.
  */
 
-import type { KonstrukcioTipus } from "./konstrukcio.js";
-import { INTENT_MEZOK, type Intent, type IntentMezo, intentAllapot } from "./intent.js";
+import type { KonstrukcioTipus } from "./konstrukcio";
+import { INTENT_MEZOK, type Intent, type IntentMezo, intentAllapot } from "./intent";
 
 export interface BelepoKerdes {
   /** B-kód a Bemenetkérő-tárból, ahol már létezik; új sor esetén a javasolt kód. */

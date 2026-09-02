@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ALAPARAK, ar, arElonezet } from "./ar.js";
+import { ALAPARAK, ar, arElonezet } from "./ar";
 
 describe("kredit-árlista", () => {
   it("az egyoldalas URL-audit 10 kredit", () => {

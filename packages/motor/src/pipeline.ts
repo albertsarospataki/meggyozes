@@ -14,7 +14,7 @@ import type { ArtefaktumObjektum } from "@meggyozes/bemenet";
 import { brandEgyezes, brandOr, type BrandEgyezes, type BrandProfil } from "@meggyozes/brand";
 import type { AuditKontextus, Sav } from "@meggyozes/core";
 import type { Javaslat, Megallapitas } from "@meggyozes/projekt";
-import type { MotorTudasbazis, Szabaly } from "./tudasbazis.js";
+import type { MotorTudasbazis, Szabaly } from "./tudasbazis";
 
 export interface DetektorVerzio {
   readonly tudasbazisVerzio: string;
@@ -226,8 +226,14 @@ function savokatSzamol(
   return SAV_SORREND.map((sav) => {
     const darab = megallapitasok.filter((m) => m.sav === sav).length;
     if (sav === "3 Hatasossag es hiany") {
+      // A hatásossági sáv a TELJES megállapítás-számhoz viszonyít: a „top 5 / 23"
+      // azt mondja meg, hányból választottuk ki az ötöt (brandbook 8.3).
       const top = Math.min(5, javaslatok.length);
-      return { nev: nevek[sav], allapot: darab === 0 ? "ok" : "reszleges", ertek: `top ${top} / ${darab}` };
+      return {
+        nev: nevek[sav],
+        allapot: darab === 0 ? "ok" : "reszleges",
+        ertek: `top ${top} / ${megallapitasok.length}`,
+      };
     }
     if (sav === "2 Meresi KO") {
       return { nev: nevek[sav], allapot: darab === 0 ? "semleges" : "reszleges", ertek: darab === 0 ? "nincs nyitott" : `${darab} nyitott` };

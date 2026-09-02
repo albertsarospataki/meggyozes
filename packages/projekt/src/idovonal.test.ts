@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { idovonal, kovetkezoLepes, MEGVALOSITAS_EMLEKEZTETO_NAP } from "./idovonal.js";
-import { aktivProjektek, archivaltProjektek, kotegetEllenoriz, type Artefaktum, type Javaslat, type Megvalositas, type Projekt, type Riport } from "./modell.js";
+import { idovonal, kovetkezoLepes, MEGVALOSITAS_EMLEKEZTETO_NAP } from "./idovonal";
+import { aktivProjektek, archivaltProjektek, kotegetEllenoriz, type Artefaktum, type Javaslat, type Megvalositas, type Projekt, type Riport } from "./modell";
 
 const artefaktum = (azonosito: string, rogzitve: string): Artefaktum => ({
   azonosito,

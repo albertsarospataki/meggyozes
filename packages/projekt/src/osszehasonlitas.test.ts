@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { Javaslat, Megallapitas, Megvalositas, Riport } from "./modell.js";
-import { jelolesElteresek, riportokatOsszehasonlit, top5Megvalosulas } from "./osszehasonlitas.js";
+import type { Javaslat, Megallapitas, Megvalositas, Riport } from "./modell";
+import { jelolesElteresek, riportokatOsszehasonlit, top5Megvalosulas } from "./osszehasonlitas";
 
 function megallapitas(x: Partial<Megallapitas> & { azonosito: string; szabalyKod: string; idezet: string }): Megallapitas {
   return {

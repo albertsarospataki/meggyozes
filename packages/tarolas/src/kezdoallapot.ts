@@ -10,7 +10,7 @@
 
 import { uresProfil, type BrandProfil } from "@meggyozes/brand";
 import { haviJovairas } from "@meggyozes/szervezet";
-import type { Tar } from "./tar.js";
+import type { Tar } from "./tar";
 
 export interface KezdoallapotBeallitas {
   readonly szervezetNev: string;

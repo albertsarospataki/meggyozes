@@ -6,7 +6,7 @@
  * a felhasználó kérdése mindig „mi történt legutóbb, és mi a következő lépés”.
  */
 
-import type { Artefaktum, Futas, Koteg, Megvalositas, Riport } from "./modell.js";
+import type { Artefaktum, Futas, Koteg, Megvalositas, Riport } from "./modell";
 
 export type IdovonalTipus =
   | "artefaktum"

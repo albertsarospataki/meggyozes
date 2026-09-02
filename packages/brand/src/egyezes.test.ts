@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { brandEgyezes } from "./egyezes.js";
-import { uresProfil, type BrandProfil } from "./profil.js";
+import { brandEgyezes } from "./egyezes";
+import { uresProfil, type BrandProfil } from "./profil";
 
 function profil(): BrandProfil {
   const p = uresProfil("b", "sz", "Példa Kft.");
@@ -68,6 +68,6 @@ describe("brand-egyezés blokk", () => {
 
   it("az összefoglaló emberi mondat, és tartalmazza a készültséget", () => {
     const e = brandEgyezes("Nálunk kérdés nélküli a visszavétel harminc napig.", profil());
-    expect(e.osszefoglalo).toMatch(/készültség \d/);
+    expect(e.osszefoglalo).toMatch(/készültség \d,\d\/5/);
   });
 });

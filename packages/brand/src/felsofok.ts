@@ -6,7 +6,7 @@
  * belőle). Egy definíció, hogy a két oldal soha ne mondjon mást ugyanarra a szóra.
  */
 
-import { keresesiAlak, kifejezestKeres, type Talalat } from "./szoveg.js";
+import { keresesiAlak, kifejezestKeres, type Talalat } from "./szoveg";
 
 /**
  * Rögzített felsőfokú kifejezések. A szabályos magyar alak (leg… + -bb) mintával

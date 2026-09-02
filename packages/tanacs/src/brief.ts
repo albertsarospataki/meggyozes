@@ -13,8 +13,8 @@
  */
 
 import { brandOr, type BrandOrEredmeny, type BrandProfil } from "@meggyozes/brand";
-import type { Intent } from "./intent.js";
-import { KONSTRUKCIO_NEVEK } from "./konstrukcio.js";
+import type { Intent } from "./intent";
+import { KONSTRUKCIO_NEVEK } from "./konstrukcio";
 
 /**
  * Javaslat-építőelem: a tervezési technika bemásolható brief-mondattá fordítva

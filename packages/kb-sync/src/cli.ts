@@ -8,9 +8,9 @@
  * «nem élesíthető»-nek, hogy a hiba látható és javítható legyen, ne néma.
  */
 import process from "node:process";
-import { NotionKliens } from "./notion-kliens.js";
-import { kovetkezoVerzio, pillanatkepetIr } from "./pillanatkep.js";
-import { szinkronizal } from "./szinkron.js";
+import { NotionKliens } from "./notion-kliens";
+import { kovetkezoVerzio, pillanatkepetIr } from "./pillanatkep";
+import { szinkronizal } from "./szinkron";
 
 async function fo(): Promise<void> {
   const token = process.env["NOTION_TOKEN"];

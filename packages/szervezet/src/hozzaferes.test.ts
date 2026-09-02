@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { jogosult, lathatoBrandek, latja, SZEREP_KEPESSEGEK, type Tagsag } from "./hozzaferes.js";
+import { jogosult, lathatoBrandek, latja, SZEREP_KEPESSEGEK, type Tagsag } from "./hozzaferes";
 
 const elemzo: Tagsag = {
   felhasznaloAzonosito: "u-1",

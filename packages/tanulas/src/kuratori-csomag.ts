@@ -9,8 +9,8 @@
  *  - a Notionba átvezetést ELŐKÉSZÍTENI, nem elvégezni — a runtime nem ír a Notionba.
  */
 
-import type { JeloltTipus, TanulasiJelolt } from "./jelolt.js";
-import { heldOutSzures } from "./jelolt.js";
+import type { JeloltTipus, TanulasiJelolt } from "./jelolt";
+import { heldOutSzures } from "./jelolt";
 
 export interface OsszevontJelolt {
   readonly tipus: JeloltTipus;
