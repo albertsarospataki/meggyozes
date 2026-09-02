@@ -11,6 +11,8 @@
     { "path": "./packages/kerdezz" },
     { "path": "./packages/tanulas" },
     { "path": "./packages/folyamat" },
-    { "path": "./packages/tarolas" }
+    { "path": "./packages/tarolas" },
+    { "path": "./packages/bemenet" },
+    { "path": "./packages/motor" }
   ]
 }
