@@ -74,6 +74,9 @@ A C és E réteg készült el elsőként, szándékosan:
 
 ## Az alkalmazás
 
+**Nem fejlesztőknek:** [docs/telepites.md](docs/telepites.md) — Node.js telepítése, a
+projekt letöltése, és a `scripts/convictly-inditas.command` dupla kattintással.
+
 ```bash
 pnpm install
 pnpm app:build          # a csomagok + a Next.js alkalmazás
