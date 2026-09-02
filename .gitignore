@@ -21,3 +21,6 @@ demo/dist/
 .adat/
 apps/web/.next/
 *.png
+
+# Az indító naplója
+convictly-naplo.txt

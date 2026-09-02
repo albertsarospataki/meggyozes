@@ -15,6 +15,11 @@ set -u
 cd "$(dirname "$0")/.." || exit 1
 GYOKER="$(pwd)"
 
+# Minden kiírás megy a képernyőre és egy naplófájlba is. Ha valami elakad, ezt az
+# egy fájlt kell elküldeni — benne van minden, ami a képernyőn megjelent.
+NAPLO="$GYOKER/convictly-naplo.txt"
+exec > >(tee "$NAPLO") 2>&1
+
 kek()  { printf "\033[1;34m%s\033[0m\n" "$1"; }
 halk() { printf "\033[2m%s\033[0m\n" "$1"; }
 hiba() { printf "\033[1;31m%s\033[0m\n" "$1"; }
@@ -58,6 +63,7 @@ kek "1/4 · Függőségek letöltése"
 halk "Első alkalommal néhány percig tart; utána másodpercek."
 if ! $PNPM install; then
   hiba "A függőségek letöltése nem sikerült. Ellenőrizd az internetkapcsolatot, és próbáld újra."
+  halk "A teljes napló: $NAPLO"
   read -r -p "Nyomj Entert a bezáráshoz."
   exit 1
 fi
@@ -78,7 +84,8 @@ fi
 echo
 kek "3/4 · Alkalmazás összeállítása"
 if ! $PNPM app:build; then
-  hiba "Az összeállítás nem sikerült. Küldd el a fenti hibaüzenetet, és megnézzük."
+  hiba "Az összeállítás nem sikerült."
+  halk "Küldd el ezt a fájlt, és megnézzük: $NAPLO"
   read -r -p "Nyomj Entert a bezáráshoz."
   exit 1
 fi

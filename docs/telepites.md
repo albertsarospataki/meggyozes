@@ -4,7 +4,7 @@ A Convictly a **saját gépeden** fut. Nincs felhő, nincs regisztráció, és s
 adat nem hagyja el a gépet: a brand-profil, az auditált oldalak és a riportok egy
 fájlban maradnak a projekt mappáján belül.
 
-Egyszer kell végigmenni rajta. Utána egy dupla kattintás elindítja.
+Egyszer kell végigmenni rajta. Utána egy bemásolt sor elindítja.
 
 ---
 
@@ -35,35 +35,33 @@ megmondja.
 
 1. Nyisd meg: **https://github.com/albertsarospataki/meggyozes/archive/refs/heads/claude/brief-szoftver-fejlesztese-qdz2fd.zip**
    (Ez egy ZIP-fájl, azonnal letöltődik.)
-2. A Letöltések mappában dupla kattintás a ZIP-re — kicsomagolódik egy mappába.
-3. Húzd át ezt a mappát oda, ahol tartani szeretnéd (pl. Dokumentumok).
-   **Ne hagyd a Letöltések mappában**, mert onnan a macOS néha törli.
+2. Ennyi. **Hagyd a Letöltések mappában** — a következő lépés magától kicsomagolja a
+   Dokumentumok mappába.
+
+Ha már kicsomagoltad, vagy máshová tetted (Asztal, Dokumentumok), az is jó: a
+következő lépés ott is megtalálja.
 
 ---
 
 ## 3. lépés — Az indítás (első alkalommal 15 perc)
 
-A szkriptet a Terminálból indítjuk. Ez a megbízható út: nem függ attól, hogy a ZIP
-megőrizte-e a futtatási jogot, és a macOS biztonsági blokkolása sem áll az útjába.
-**Nem kell semmit begépelned a fájl elérési útjából — a fájlt behúzod az ablakba.**
+**Egyetlen sort kell bemásolnod.** Nem kell mappát keresned, fájlt behúznod, elérési
+utat begépelned: a sor magától megtalálja a projektet — és ha még csak a ZIP van meg
+a Letöltésekben, azt is kicsomagolja.
 
 1. Nyisd meg a **Terminál** alkalmazást:
    `Cmd + Szóköz`, írd be: `terminál`, Enter.
-   (Egy fekete vagy fehér ablak nyílik meg szöveges sorral. Ez normális.)
+   (Egy fekete vagy fehér ablak nyílik meg egy szöveges sorral. Ez normális.)
 
-2. Az ablakba írd be ezt a négy betűt és **egy szóközt** — a szóköz fontos:
+2. Másold ki az alábbi sort **egészben**, illeszd be a Terminálba (`Cmd + V`), és
+   nyomj **Entert**:
 
    ```
-   bash 
+   P=$(find "$HOME/Downloads" "$HOME/Desktop" "$HOME/Documents" -maxdepth 6 -name "convictly-inditas.command" 2>/dev/null | head -1); if [ -z "$P" ]; then Z=$(find "$HOME/Downloads" -maxdepth 1 -name "meggyozes*.zip" 2>/dev/null | head -1); if [ -n "$Z" ]; then echo "Kicsomagolom: $Z"; unzip -q -o "$Z" -d "$HOME/Documents" && P=$(find "$HOME/Documents" -maxdepth 6 -name "convictly-inditas.command" 2>/dev/null | head -1); fi; fi; if [ -n "$P" ]; then bash "$P"; else echo "Nem találom a Convictly mappát — töltsd le a ZIP-et a 2. lépés szerint."; fi
    ```
 
-3. Nyisd meg a Finderben a kicsomagolt projekt mappáját, azon belül a **`scripts`**
-   mappát.
-
-4. **Húzd rá** a `convictly-inditas.command` fájlt a Terminál ablakára, és engedd el.
-   A fájl elérési útja magától beíródik a `bash ` után.
-
-5. Nyomj **Entert**.
+   A Terminál nem mutatja, hogy a beillesztés sikerült-e szépen — nem baj, elég ha az
+   Enter után elindul.
 
 Ennyi. Az ablak elkezd dolgozni, és négy lépést fogsz látni:
 
@@ -84,17 +82,20 @@ A belépő kód: **`convictly`**
 
 Kész. Ez a rendszer, futásban.
 
+> **Miért nem dupla kattintás?** Az internetről letöltött szkriptekre a macOS nem ad
+> futtatási jogot, ezért a `.command` fájlon a dupla kattintás (és a jobb gomb →
+> Megnyitás is) gyakran nem csinál semmit, vagy TextEditben nyitja meg a fájlt. A
+> Terminálból indítva ez a korlátozás nem érvényes.
+
 ---
 
 ## Naponta: hogyan indítod újra
 
-Ugyanígy: Terminál → `bash ` → fájl behúzása → Enter. Ilyenkor már gyors, 15–20
-másodperc.
+Ugyanaz az egy sor, ugyanoda. Ilyenkor már gyors: 15–20 másodperc.
+
+A Terminálban a **felfelé nyíl** előhozza az előző parancsot — elég Entert nyomni.
 
 **Leállítás:** zárd be a Terminál-ablakot. (Amíg nyitva van, a rendszer fut.)
-
-**Ha egyszerűbbet szeretnél:** miután egyszer lefutott, a Terminálban a **felfelé
-nyíl** előhozza az előző parancsot — elég Entert nyomni.
 
 ---
 
@@ -111,21 +112,46 @@ nyíl** előhozza az előző parancsot — elég Entert nyomni.
 
 ## Ha valami elakad
 
-**Dupla kattintással próbáltam, és nem történt semmi (vagy TextEdit nyílt meg).**
-Ez a várható viselkedés: az internetről letöltött szkriptekre a macOS nem ad
-futtatási jogot. Ezért indítjuk Terminálból, a 3. lépés szerint — ott ez a
-korlátozás nem érvényes.
+**Küldd el a diagnosztikát — ebből látszik, hol áll meg.**
+Illeszd be ezt az egy sort a Terminálba, és nyomj Entert:
 
-**„command not found: bash" vagy hasonló.**
-Valószínűleg lemaradt a szóköz a `bash` után, vagy a fájl útja nem került be.
-Töröld a sort (Ctrl+U), és kezdd újra: `bash `, szóköz, majd húzd be a fájlt.
+```
+D=$(find "$HOME/Downloads" "$HOME/Desktop" "$HOME/Documents" -maxdepth 6 -name "convictly-diagnosztika.command" 2>/dev/null | head -1); if [ -n "$D" ]; then bash "$D"; else { echo "macOS: $(sw_vers -productVersion 2>/dev/null)"; echo "processzor: $(uname -m)"; echo "node: $(node -v 2>/dev/null || echo NINCS)"; echo "mappa: $(find "$HOME/Downloads" "$HOME/Desktop" "$HOME/Documents" -maxdepth 6 -name "convictly-inditas.command" 2>/dev/null | head -3)"; echo "zip: $(find "$HOME/Downloads" -maxdepth 1 -name "meggyozes*.zip" 2>/dev/null | head -1)"; } | tee "$HOME/Desktop/convictly-diagnosztika.txt"; fi
+```
+
+Az Asztalodra kerül egy **`convictly-diagnosztika.txt`** fájl. Azt küldd el — nem
+tartalmaz jelszót és személyes adatot, csak azt, hogy mi van telepítve és hol tart a
+projekt.
+
+Az indító a saját naplóját is elmenti: a projekt mappájában **`convictly-naplo.txt`**
+néven, minden indításkor felülírva.
+
+---
+
+**A Terminál semmit nem ír ki, csak visszaugrik a promptra.**
+A beillesztett sor csonka lett. Törölj mindent (`Ctrl + U`), és másold be újra —
+a sor hosszú, de **egy** sor, tördelés nélkül.
+
+**„Nem találom a Convictly mappát".**
+A 2. lépés maradt ki, vagy a ZIP nem a Letöltésekbe került. Töltsd le újra, és hagyd
+a Letöltésekben — a sor onnan magától kicsomagolja.
 
 **„Nincs telepítve a Node.js."**
-Az 1. lépés kimaradt. Telepítsd, majd indítsd újra a `.command` fájlt.
+Az 1. lépés kimaradt. Telepítsd a nodejs.org oldaláról, **zárd be a Terminál-ablakot**,
+nyiss egy újat, és illeszd be újra a sort. (Az új ablak kell: a régi még nem tud a
+frissen telepített Node-ról.)
+
+**Dupla kattintással próbáltam, és nem történt semmi (vagy TextEdit nyílt meg).**
+Ez a várható viselkedés, lásd a 3. lépés alatti magyarázatot. A beillesztett sor
+ezt kerüli meg.
 
 **A böngésző „Nem érhető el az oldal"-t ír.**
 A rendszernek pár másodperc kell az indulás után. Frissíts rá, vagy írd be kézzel:
 `http://localhost:3000`
+
+**„Port 3000 is in use" vagy hasonló.**
+Már fut egy példány. Vagy nyisd meg egyszerűen a `http://localhost:3000` címet, vagy
+zárd be a korábbi Terminál-ablakot, és indítsd újra.
 
 **Az URL-audit hibaüzenetet ad.**
 Van olyan oldal, ami nem engedi be a gépi böngészőt. Ilyenkor másold ki az oldal

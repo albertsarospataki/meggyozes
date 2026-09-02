@@ -75,9 +75,13 @@ A C és E réteg készült el elsőként, szándékosan:
 ## Az alkalmazás
 
 **Nem fejlesztőknek:** [docs/telepites.md](docs/telepites.md) — Node.js telepítése, a
-projekt letöltése, majd Terminálban `bash ` + a `scripts/convictly-inditas.command`
-fájl behúzása. (A dupla kattintás azért nem elsődleges út, mert a ZIP-ből letöltött
-szkript futtatási jogát a macOS nem adja meg.)
+projekt letöltése, majd egyetlen bemásolt sor a Terminálba. A sor megkeresi a
+projektet (és ha kell, kicsomagolja a ZIP-et), majd elindítja a
+`scripts/convictly-inditas.command` szkriptet. Ha elakad:
+`scripts/convictly-diagnosztika.command` egy elküldhető állapotjelentést ír az
+Asztalra, az indító pedig `convictly-naplo.txt` néven naplózza a futását.
+(A dupla kattintás azért nem út, mert a ZIP-ből letöltött szkript futtatási jogát a
+macOS nem adja meg.)
 
 ```bash
 pnpm install
